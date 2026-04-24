@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="SpeakEasy">
+<meta name="theme-color" content="#0f0f0f">
+<title>SpeakEasy — Nauč sa angličtinu</title>
+<style>
+  :root {
+    --bg: #0f0f0f;
+    --bg2: #1a1a1a;
+    --bg3: #242424;
+    --border: rgba(255,255,255,0.08);
+    --border2: rgba(255,255,255,0.15);
+    --text: #f0f0f0;
+    --text2: #999;
+    --text3: #666;
+    --accent: #e8ff6b;
+    --accent-dim: rgba(232,255,107,0.12);
+    --accent-border: rgba(232,255,107,0.3);
+    --green: #4ade80;
+    --green-dim: rgba(74,222,128,0.12);
+    --red: #f87171;
+    --red-dim: rgba(248,113,113,0.12);
+    --blue: #60a5fa;
+    --blue-dim: rgba(96,165,250,0.12);
+    --r: 12px;
+    --r-sm: 8px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  html, body { height: 100%; background: var(--bg); color: var(--text); font-family: -apple-system, 'SF Pro Display', BlinkMacSystemFont, sans-serif; }
+  
+  #app { min-height: 100vh; max-width: 430px; margin: 0 auto; position: relative; }
+  
+  .screen { display: none; min-height: 100vh; flex-direction: column; }
+  .screen.active { display: flex; }
+  
+  /* TYPOGRAPHY */
+  h1 { font-size: 28px; font-weight: 700; line-height: 1.2; letter-spacing: -0.5px; }
+  h2 { font-size: 20px; font-weight: 600; letter-spacing: -0.3px; }
+  h3 { font-size: 16px; font-weight: 600; }
+  p { font-size: 15px; line-height: 1.6; color: var(--text2); }
+  
+  /* LAYOUT */
+  .padded { padding: 0 20px; }
+  .safe-top { padding-top: max(24px, env(safe-area-inset-top)); }
+  .safe-bottom { padding-bottom: max(24px, env(safe-area-inset-bottom)); }
+  
+  /* BUTTONS */
+  .btn { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 16px; border-radius: var(--r); font-size: 16px; font-weight: 600; cursor: pointer; border: none; transition: transform 0.1s, opacity 0.15s; }
+  .btn:active { transform: scale(0.97); }
+  .btn-primary { background: var(--accent); color: #0f0f0f; }
+  .btn-secondary { background: var(--bg3); color: var(--text); border: 0.5px solid var(--border2); }
+  .btn-ghost { background: transparent; color: var(--text2); border: 0.5px solid var(--border); }
+  
+  /* CARDS */
+  .card { background: var(--bg2); border: 0.5px solid var(--border); border-radius: var(--r); padding: 16px; }
+  .card-accent { background: var(--accent-dim); border: 0.5px solid var(--accent-border); border-radius: var(--r); padding: 16px; }
+  
+  /* PILL/BADGE */
+  .pill { display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+  .pill-green { background: var(--green-dim); color: var(--green); }
+  .pill-blue { background: var(--blue-dim); color: var(--blue); }
+  .pill-accent { background: var(--accent-dim); color: var(--accent); }
+  
+  /* PROGRESS */
+  .progress { height: 3px; background: var(--bg3); border-radius: 2px; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--accent); border-radius: 2px; transition: width 0.4s ease; }
+  
+  /* DIVIDER */
+  .divider { height: 0.5px; background: var(--border); margin: 0; }
+  
+  /* NAV BAR */
+  .navbar { display: flex; padding: 12px 20px; padding-bottom: max(12px, env(safe-area-inset-bottom)); background: rgba(15,15,15,0.95); backdrop-filter: blur(20px); border-top: 0.5px solid var(--border); position: sticky; bottom: 0; }
+  .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; cursor: pointer; padding: 4px; border-radius: var(--r-sm); transition: background 0.15s; }
+  .nav-item.active .nav-icon { color: var(--accent); }
+  .nav-item.active .nav-label { color: var(--accent); }
+  .nav-icon { font-size: 20px; }
+  .nav-label { font-size: 10px; color: var(--text3); font-weight: 500; }
+
+  /* ======================== ONBOARD ======================== */
+  #s-onboard { padding: 0; }
+  .onboard-hero {
+    flex: 1; display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 32px 24px; background: linear-gradient(to bottom, #0f0f0f 0%, #141414 100%);
+    position: relative; overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none;
+    background: radial-gradient(ellipse 120% 60% at 50% 0%, rgba(232,255,107,0.08) 0%, transparent 70%);
+  }
+  .hero-emoji { font-size: 64px; margin-bottom: 20px; display: block; }
+  .hero-title { font-size: 32px; font-weight: 800; letter-spacing: -1px; line-height: 1.15; margin-bottom: 12px; }
+  .hero-sub { font-size: 16px; color: var(--text2); line-height: 1.6; margin-bottom: 32px; }
+  .feature-row { display: flex; gap: 8px; margin-bottom: 32px; flex-wrap: wrap; }
+  .feature-chip { background: var(--bg2); border: 0.5px solid var(--border); border-radius: 20px; padding: 6px 12px; font-size: 12px; color: var(--text2); display: flex; align-items: center; gap: 5px; }
+  
+  /* ======================== ASSESSMENT ======================== */
+  #s-assess { padding: 20px; padding-top: max(24px, env(safe-area-inset-top)); flex-direction: column; }
+  .assess-header { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+  .assess-count { font-size: 13px; color: var(--text3); font-weight: 500; }
+  .q-situation { font-size: 13px; color: var(--text3); background: var(--bg3); border-radius: var(--r-sm); padding: 10px 12px; margin-bottom: 16px; border-left: 2px solid var(--border2); line-height: 1.5; }
+  .q-text { font-size: 20px; font-weight: 700; line-height: 1.35; margin-bottom: 24px; letter-spacing: -0.3px; }
+  .options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
+  .option { padding: 14px 16px; border-radius: var(--r); border: 0.5px solid var(--border); background: var(--bg2); font-size: 15px; cursor: pointer; display: flex; align-items: center; gap: 12px; transition: border-color 0.15s, background 0.15s; text-align: left; }
+  .option:active { transform: scale(0.99); }
+  .option.selected { border-color: var(--accent-border); background: var(--accent-dim); }
+  .option.correct { border-color: rgba(74,222,128,0.4); background: var(--green-dim); }
+  .option.wrong { border-color: rgba(248,113,113,0.4); background: var(--red-dim); }
+  .opt-letter { width: 28px; height: 28px; border-radius: 50%; border: 0.5px solid var(--border2); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; color: var(--text2); }
+  .feedback-msg { font-size: 14px; font-weight: 600; padding: 10px 14px; border-radius: var(--r-sm); margin-bottom: 16px; }
+  .feedback-correct { background: var(--green-dim); color: var(--green); }
+  .feedback-wrong { background: var(--red-dim); color: var(--red); }
+  
+  /* ======================== RESULT ======================== */
+  #s-result { padding: 24px; padding-top: max(40px, env(safe-area-inset-top)); flex-direction: column; align-items: center; justify-content: center; }
+  .result-circle { width: 120px; height: 120px; border-radius: 50%; background: var(--accent-dim); border: 2px solid var(--accent-border); display: flex; flex-direction: column; align-items: center; justify-content: center; margin-bottom: 24px; }
+  .result-level { font-size: 32px; font-weight: 800; color: var(--accent); letter-spacing: -1px; }
+  .result-label { font-size: 11px; color: var(--text3); font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; }
+  .score-row { display: flex; gap: 12px; margin: 24px 0; width: 100%; }
+  .score-box { flex: 1; background: var(--bg2); border: 0.5px solid var(--border); border-radius: var(--r); padding: 14px; text-align: center; }
+  .score-num { font-size: 22px; font-weight: 700; }
+  .score-lbl { font-size: 11px; color: var(--text3); margin-top: 2px; }
+  
+  /* ======================== DASHBOARD ======================== */
+  #s-dash { flex-direction: column; }
+  .dash-head { padding: 20px; padding-top: max(24px, env(safe-area-inset-top)); }
+  .greeting { font-size: 13px; color: var(--text3); margin-bottom: 4px; font-weight: 500; }
+  .dash-title { font-size: 24px; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 16px; }
+  .stats-row { display: flex; gap: 10px; margin-bottom: 20px; }
+  .stat { flex: 1; background: var(--bg2); border: 0.5px solid var(--border); border-radius: var(--r); padding: 12px; }
+  .stat-val { font-size: 20px; font-weight: 700; }
+  .stat-lbl { font-size: 10px; color: var(--text3); margin-top: 2px; font-weight: 500; }
+  .streak-row { display: flex; gap: 6px; margin-bottom: 20px; }
+  .streak-day { flex: 1; height: 36px; border-radius: var(--r-sm); background: var(--bg2); border: 0.5px solid var(--border); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; }
+  .streak-day .day-name { font-size: 9px; color: var(--text3); font-weight: 600; text-transform: uppercase; }
+  .streak-day .day-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--bg3); }
+  .streak-day.done .day-dot { background: var(--green); }
+  .streak-day.today { border-color: var(--accent-border); background: var(--accent-dim); }
+  .streak-day.today .day-name { color: var(--accent); }
+  .streak-day.today .day-dot { background: var(--accent); }
+  .section-title { font-size: 12px; font-weight: 700; color: var(--text3); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 12px; padding: 0 20px; }
+  .lesson-item { margin: 0 20px 10px; background: var(--bg2); border: 0.5px solid var(--border); border-radius: var(--r); padding: 16px; display: flex; align-items: center; gap: 14px; cursor: pointer; transition: border-color 0.15s, transform 0.1s; }
+  .lesson-item:active { transform: scale(0.99); }
+  .lesson-item:hover { border-color: var(--border2); }
+  .lesson-item.locked { opacity: 0.45; }
+  .lesson-item.done { opacity: 0.5; }
+  .lesson-ico { width: 48px; height: 48px; border-radius: var(--r-sm); background: var(--bg3); display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+  .lesson-item.active-lesson .lesson-ico { background: var(--accent-dim); }
+  .lesson-info { flex: 1; }
+  .lesson-name { font-size: 15px; font-weight: 600; margin-bottom: 3px; }
+  .lesson-sub { font-size: 12px; color: var(--text3); }
+  .lesson-badge { flex-shrink: 0; }
+  .dash-scroll { flex: 1; overflow-y: auto; padding-bottom: 16px; }
+  
+  /* ======================== LESSON ======================== */
+  #s-lesson { flex-direction: column; }
+  .lesson-header { padding: 16px 20px; padding-top: max(20px, env(safe-area-inset-top)); display: flex; align-items: center; gap: 12px; }
+  .back-btn { width: 36px; height: 36px; border-radius: 50%; background: var(--bg2); border: 0.5px solid var(--border); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 16px; flex-shrink: 0; }
+  .lesson-header-title { font-size: 16px; font-weight: 600; flex: 1; }
+  .lesson-body { flex: 1; overflow-y: auto; padding: 20px; }
+  .lesson-footer { padding: 16px 20px; padding-bottom: max(16px, env(safe-area-inset-bottom)); border-top: 0.5px solid var(--border); background: rgba(15,15,15,0.95); backdrop-filter: blur(20px); }
+  
+  .phrase-card { background: var(--bg2); border: 0.5px solid var(--border); border-radius: var(--r); padding: 18px; margin-bottom: 12px; }
+  .phrase-sk { font-size: 13px; color: var(--text3); margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
+  .phrase-en { font-size: 20px; font-weight: 700; color: var(--text); letter-spacing: -0.3px; margin-bottom: 8px; }
+  .phrase-note { font-size: 12px; color: var(--text3); background: var(--bg3); border-radius: var(--r-sm); padding: 8px 10px; }
+  
+  .dialogue-bubble { margin-bottom: 14px; }
+  .bubble-role { font-size: 11px; color: var(--text3); font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 5px; }
+  .bubble-text { padding: 12px 14px; border-radius: var(--r); font-size: 15px; line-height: 1.5; }
+  .bubble-other { background: var(--bg2); border: 0.5px solid var(--border); border-radius: var(--r) var(--r) var(--r) 4px; }
+  .bubble-me { background: var(--accent-dim); border: 0.5px solid var(--accent-border); color: var(--accent); border-radius: var(--r) var(--r) 4px var(--r); }
+  
+  .quiz-card { background: var(--bg2); border: 0.5px solid var(--border); border-radius: var(--r); padding: 20px; }
+  .quiz-q { font-size: 18px; font-weight: 700; line-height: 1.4; margin-bottom: 20px; letter-spacing: -0.3px; }
+  .quiz-options { display: flex; flex-direction: column; gap: 10px; }
+  .quiz-opt { padding: 14px 16px; border-radius: var(--r-sm); border: 0.5px solid var(--border); background: var(--bg3); font-size: 15px; cursor: pointer; transition: all 0.15s; text-align: left; }
+  .quiz-opt:active { transform: scale(0.99); }
+  .quiz-opt.correct { background: var(--green-dim); border-color: rgba(74,222,128,0.4); color: var(--green); font-weight: 600; }
+  .quiz-opt.wrong { background: var(--red-dim); border-color: rgba(248,113,113,0.4); color: var(--red); }
+  
+  .step-label { font-size: 11px; font-weight: 700; color: var(--text3); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 12px; }
+  
+  .completion-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 60vh; text-align: center; padding: 20px; }
+  .completion-emoji { font-size: 72px; margin-bottom: 20px; }
+  .completion-title { font-size: 28px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 8px; }
+  .completion-sub { font-size: 16px; color: var(--text2); margin-bottom: 32px; line-height: 1.6; }
+  .completion-stats { display: flex; gap: 16px; margin-bottom: 32px; }
+  .completion-stat { text-align: center; }
+  .completion-stat-val { font-size: 28px; font-weight: 800; color: var(--accent); }
+  .completion-stat-lbl { font-size: 12px; color: var(--text3); margin-top: 2px; }
+</style>
+</head>
+<body>
+<div id="app">
+
+<!-- ==================== ONBOARD ==================== -->
+<div class="screen active" id="s-onboard">
+  <div class="onboard-hero safe-top safe-bottom">
+    <div class="hero-bg"></div>
+    <span class="hero-emoji">🗣️</span>
+    <h1 class="hero-title">Nauč sa<br>angličtinu<br><span style="color:var(--accent)">za 15 min</span><br>denne.</h1>
+    <p class="hero-sub">Reálne situácie. Žiadna gramatika. Len frázy, ktoré naozaj použiješ.</p>
+    <div class="feature-row">
+      <div class="feature-chip">📊 Vstupný test</div>
+      <div class="feature-chip">📚 3 lekcie / deň</div>
+      <div class="feature-chip">🔔 Remindery</div>
+      <div class="feature-chip">☕ Reálne situácie</div>
+      <div class="feature-chip">📄 PDF zhrnutie</div>
+    </div>
+    <button class="btn btn-primary" onclick="startAssessment()" style="font-size:17px; padding:18px;">
+      Začať vstupný test →
+    </button>
+  </div>
+</div>
+
+<!-- ==================== ASSESSMENT ==================== -->
+<div class="screen" id="s-assess">
+  <div class="assess-header padded">
+    <span class="assess-count" id="q-counter">Otázka 1 / 8</span>
+    <div class="progress" style="flex:1; height:4px;">
+      <div class="progress-fill" id="assess-prog" style="width:12%"></div>
+    </div>
+  </div>
+  <div style="flex:1; overflow-y:auto; padding: 16px 20px 20px;" id="assess-body"></div>
+</div>
+
+<!-- ==================== RESULT ==================== -->
+<div class="screen" id="s-result">
+  <div style="width:100%; max-width:380px; text-align:center;">
+    <div style="font-size:13px; color:var(--text3); font-weight:600; letter-spacing:0.05em; text-transform:uppercase; margin-bottom:24px;">Tvoj výsledok</div>
+    <div class="result-circle">
+      <div class="result-level" id="r-level">A2</div>
+      <div class="result-label">tvoj level</div>
+    </div>
+    <h2 id="r-title" style="margin-bottom:10px;">Mierne pokročilý</h2>
+    <p id="r-desc" style="font-size:14px; padding:0 10px; margin-bottom:0;"></p>
+    <div class="score-row" id="r-scores"></div>
+    <button class="btn btn-primary" onclick="goToDashboard()" style="padding:17px; font-size:16px;">
+      Zobraziť moje lekcie →
+    </button>
+  </div>
+</div>
+
+<!-- ==================== DASHBOARD ==================== -->
+<div class="screen" id="s-dash">
+  <div class="dash-head padded">
+    <div class="greeting" id="dash-greeting">Dobré ráno 👋</div>
+    <div class="dash-title" id="dash-headline">Dnešné lekcie</div>
+    <div class="stats-row">
+      <div class="stat"><div class="stat-val" id="s-streak">4</div><div class="stat-lbl">deň streak 🔥</div></div>
+      <div class="stat"><div class="stat-val" id="s-done">0/3</div><div class="stat-lbl">dnes hotovo</div></div>
+      <div class="stat"><div class="stat-val" id="s-level-stat">A2</div><div class="stat-lbl">tvoj level</div></div>
+    </div>
+    <div class="streak-row" id="streak-row">
+      <div class="streak-day done"><div class="day-name">Po</div><div class="day-dot"></div></div>
+      <div class="streak-day done"><div class="day-name">Ut</div><div class="day-dot"></div></div>
+      <div class="streak-day done"><div class="day-name">St</div><div class="day-dot"></div></div>
+      <div class="streak-day today"><div class="day-name">Šv</div><div class="day-dot"></div></div>
+      <div class="streak-day"><div class="day-name">Pi</div><div class="day-dot"></div></div>
+      <div class="streak-day"><div class="day-name">So</div><div class="day-dot"></div></div>
+      <div class="streak-day"><div class="day-name">Ne</div><div class="day-dot"></div></div>
+    </div>
+  </div>
+  <div class="dash-scroll" id="dash-scroll">
+    <div class="section-title">Dnešné lekcie</div>
+    <div id="lesson-list"></div>
+  </div>
+  <div class="navbar">
+    <div class="nav-item active"><div class="nav-icon">🏠</div><div class="nav-label">Dnes</div></div>
+    <div class="nav-item" onclick="alert('Pripravujeme! 🚀')"><div class="nav-icon">📊</div><div class="nav-label">Progress</div></div>
+    <div class="nav-item" onclick="showReminders()"><div class="nav-icon">🔔</div><div class="nav-label">Remindery</div></div>
+    <div class="nav-item" onclick="alert('Profil príde čoskoro!')"><div class="nav-icon">👤</div><div class="nav-label">Profil</div></div>
+  </div>
+</div>
+
+<!-- ==================== LESSON ==================== -->
+<div class="screen" id="s-lesson">
+  <div class="lesson-header">
+    <div class="back-btn" onclick="backToDash()">←</div>
+    <div class="lesson-header-title" id="lesson-h-title"></div>
+    <div class="pill pill-accent" id="lesson-step-pill">1/4</div>
+  </div>
+  <div class="progress" style="margin:0 20px; margin-bottom:0;">
+    <div class="progress-fill" id="lesson-prog" style="width:0%"></div>
+  </div>
+  <div class="lesson-body" id="lesson-body"></div>
+  <div class="lesson-footer" id="lesson-footer"></div>
+</div>
+
+</div><!-- #app -->
+
+<script>
+// ==================== DATA ====================
+const QUESTIONS = [
+  { sit:"Si v kaviarni v Londýne.", q:"Chceš si objednať veľké latté. Čo povieš?", opts:["One large latte, please.","I want big coffee.","Give me latte now.","Latte, big one!"], cor:0, lvl:"A1" },
+  { sit:"Stretneš nového kolegu.", q:"Ako odpovieš na: \"Nice to meet you\"?", opts:["Nice to meet you too!","Yes, and me.","Thank you, bye.","Same, hello."], cor:0, lvl:"A1" },
+  { sit:"Si v supermarkete, chceš zaplatiť.", q:"Čo sa spýtaš pri pokladni?", opts:["Can I pay by card?","Card pay possible?","I have card money.","Payment with card?"], cor:0, lvl:"A1" },
+  { sit:"Na letisku ťa pýtajú dôvod návštevy.", q:"\"What's the purpose of your visit?\" — Ideš na dovolenku.", opts:["I'm here on holiday.","My visit is vacation.","Holiday I go.","Purpose: tourism yes."], cor:0, lvl:"A2" },
+  { sit:"Nepočul si čo kolega povedal.", q:"Ako zdvorilo požiadaš o zopakovanie?", opts:["Could you repeat that, please?","Say again louder!","What? Speak more!","Repeat yourself now."], cor:0, lvl:"A2" },
+  { sit:"Na pracovnom obede s klientom.", q:"Chceš navrhnúť čaj alebo kávu. Čo povieš?", opts:["Would you like tea or coffee?","You want drink something?","Tea coffee you?","Drink for you, yes?"], cor:0, lvl:"A2" },
+  { sit:"Na obchodnom stretnutí.", q:"Chceš vyjadriť súhlas s názorom kolegu.", opts:["I completely agree with you on that.","Yes me too same opinion.","Correct, you right.","I yes agree thing."], cor:0, lvl:"B1" },
+  { sit:"Na pracovnom pohovore.", q:"\"What are your main strengths?\" — Odpovieš profesionálne:", opts:["I'm particularly good at problem-solving and working under pressure.","I have many good skills in work.","My strong points is much.","I work good and fast things."], cor:0, lvl:"B1" }
+];
+
+const LESSONS_DATA = {
+  A1: [
+    {
+      id:"cafe", icon:"☕", name:"V kaviarni", sub:"Objednávanie, platenie, zdvorilosť",
+      reminder:"8:00", color:"#e8ff6b",
+      steps:[
+        { type:"intro", title:"V kaviarni ☕", desc:"Dnes sa naučíš 5 fráz, ktoré použiješ v každej kaviarni na svete. Potom si ich precvičíš cez reálny dialóg." },
+        { type:"phrases", title:"Kľúčové frázy", phrases:[
+          { sk:"Dám si jedno veľké latté, prosím.", en:"I'd like a large latte, please.", note:"'I'd like' je zdvorilejšie ako 'I want' — vždy použi toto" },
+          { sk:"Koľko to stojí?", en:"How much is it?", note:"Klasická otázka. Môžeš aj: 'How much does this cost?'" },
+          { sk:"Môžem platiť kartou?", en:"Can I pay by card?", note:"Alebo: 'Do you take card?' — oboje je správne" },
+          { sk:"Je tu voľné miesto?", en:"Is this seat taken?", note:"Pytáš sa či je miesto obsadené — kľúčová fráza v kaviarni" },
+          { sk:"Ďakujem, bolo to výborné.", en:"Thank you, it was delicious!", note:"'Delicious' = výborné / chutné — silnejšie ako 'good'" }
+        ]},
+        { type:"dialogue", title:"Reálny dialóg", scene:"Objednávaš si v kaviarni v Londýne.", lines:[
+          { role:"Barista", text:"Hi there! What can I get you today?", isMe:false },
+          { role:"Ty", text:"I'd like a large oat milk latte, please.", isMe:true },
+          { role:"Barista", text:"Sure! Anything else — maybe a pastry?", isMe:false },
+          { role:"Ty", text:"No thanks, that's all. How much is it?", isMe:true },
+          { role:"Barista", text:"That's £4.80. Card or cash?", isMe:false },
+          { role:"Ty", text:"Card, please.", isMe:true },
+          { role:"Barista", text:"Perfect, thank you! Have a great day!", isMe:false },
+          { role:"Ty", text:"You too, thanks!", isMe:true }
+        ]},
+        { type:"quiz", title:"Rýchly test", questions:[
+          { q:"Chceš si objednať cappuccino. Čo povieš?", opts:["I'd like a cappuccino, please.","Give me cappuccino.","One cappuccino I want."], cor:0 },
+          { q:"Ako sa opýtaš na cenu?", opts:["How much is it?","What is the price number?","Cost how much?"], cor:0 },
+          { q:"Pýtaš sa či je miesto voľné:", opts:["Is this seat taken?","This seat is free?","Can I sit here please maybe?"], cor:0 }
+        ]},
+        { type:"done" }
+      ]
+    },
+    {
+      id:"shopping", icon:"🛒", name:"Nakupovanie", sub:"Ceny, veľkosti, vrátenie tovaru",
+      reminder:"12:30", color:"#60a5fa",
+      steps:[
+        { type:"intro", title:"Nakupovanie 🛒", desc:"Veľkosti, ceny, reklamácie. Frázy pre každý obchod — od H&M po Apple Store." },
+        { type:"phrases", title:"Kľúčové frázy", phrases:[
+          { sk:"Máte toto aj vo veľkosti M?", en:"Do you have this in size medium?", note:"Veľkosti: small, medium, large, extra large (S/M/L/XL)" },
+          { sk:"Môžem si to vyskúšať?", en:"Can I try this on?", note:"'Try on' = vyskúšať oblečenie — vždy ako jedno sloveso" },
+          { sk:"Kde sú skúšobné kabínky?", en:"Where are the fitting rooms?", note:"'Fitting rooms' = skúšobné kabínky (aj 'changing rooms')" },
+          { sk:"Chcem vrátiť tento tovar.", en:"I'd like to return this, please.", note:"'Return' = vrátiť. Na vrátenie vždy potrebuješ receipt = účtenku" },
+          { sk:"Máte nejaké zľavy / výpredaj?", en:"Do you have any sales on?", note:"'Sales' = výpredaj. 'Discount' = zľava na konkrétny tovar" }
+        ]},
+        { type:"dialogue", title:"Reálny dialóg", scene:"V obchode s oblečením.", lines:[
+          { role:"Predavač", text:"Hi! Can I help you with anything?", isMe:false },
+          { role:"Ty", text:"Yes, do you have this jacket in size medium?", isMe:true },
+          { role:"Predavač", text:"Let me check... yes, we do! Would you like to try it on?", isMe:false },
+          { role:"Ty", text:"Yes please. Where are the fitting rooms?", isMe:true },
+          { role:"Predavač", text:"Just at the back, on your left.", isMe:false },
+          { role:"Ty", text:"Thank you!", isMe:true }
+        ]},
+        { type:"quiz", title:"Rýchly test", questions:[
+          { q:"Chceš vyskúšať tričko:", opts:["Can I try this on?","I want try shirt.","Test this clothing?"], cor:0 },
+          { q:"Pýtaš sa na veľkosť L:", opts:["Do you have this in size large?","This in large size have?","Large size please give me."], cor:0 },
+          { q:"Chceš vrátiť tovar:", opts:["I'd like to return this, please.","Return want I this.","This thing back please."], cor:0 }
+        ]},
+        { type:"done" }
+      ]
+    },
+    {
+      id:"hotel", icon:"🏨", name:"V hoteli", sub:"Check-in, požiadavky, problémy",
+      reminder:"19:00", color:"#a78bfa",
+      steps:[
+        { type:"intro", title:"V hoteli 🏨", desc:"Check-in, požiadavky na izbu, problémy. Frázy pre každý hotel — od hostelu po 5-hviezdičkový resort." },
+        { type:"phrases", title:"Kľúčové frázy", phrases:[
+          { sk:"Mám rezerváciu na meno Novák.", en:"I have a reservation under the name Novák.", note:"'Under the name' = na meno — štandardná fráza na recepcii" },
+          { sk:"O koľkej je check-out?", en:"What time is check-out?", note:"'Check-out' — rovnaké slovo aj po slovensky v hoteloch" },
+          { sk:"Môžem mať neskorší check-out?", en:"Is a late check-out possible?", note:"Vždy sa oplatí spýtať — často to povolia zadarmo" },
+          { sk:"V kúpeľni nefunguje sprcha.", en:"The shower in my room isn't working.", note:"'Isn't working' = nefunguje. Možno aj: 'is broken'" },
+          { sk:"Môžete mi zavolať taxi?", en:"Could you call a taxi for me?", note:"'Could you' = mohli by ste — zdvorilejšie ako 'Can you'" }
+        ]},
+        { type:"dialogue", title:"Reálny dialóg", scene:"Check-in v hoteli.", lines:[
+          { role:"Recepcia", text:"Good evening! Welcome. Do you have a reservation?", isMe:false },
+          { role:"Ty", text:"Yes, I have a reservation under the name Novák.", isMe:true },
+          { role:"Recepcia", text:"Let me find that... perfect, a double room for two nights. Can I see your ID?", isMe:false },
+          { role:"Ty", text:"Of course, here you go.", isMe:true },
+          { role:"Recepcia", text:"Thank you. Breakfast is from 7 to 10. Check-out is at noon.", isMe:false },
+          { role:"Ty", text:"Is a late check-out possible? Around 1pm?", isMe:true },
+          { role:"Recepcia", text:"I can arrange that for you, no problem!", isMe:false }
+        ]},
+        { type:"quiz", title:"Rýchly test", questions:[
+          { q:"Oznamuješ rezerváciu na recepcii:", opts:["I have a reservation under the name...","My booking is for name...","Reserve I have here."], cor:0 },
+          { q:"Sprcha nefunguje — čo povieš?", opts:["The shower in my room isn't working.","Shower broken is in room.","My shower not work please fix."], cor:0 },
+          { q:"Chceš neskorší check-out:", opts:["Is a late check-out possible?","Late checkout I want please.","Can I go out late?"], cor:0 }
+        ]},
+        { type:"done" }
+      ]
+    }
+  ],
+  A2: [
+    {
+      id:"airport", icon:"✈️", name:"Na letisku", sub:"Check-in, colnica, brána",
+      reminder:"8:00", color:"#e8ff6b",
+      steps:[
+        { type:"intro", title:"Na letisku ✈️", desc:"Od check-in po pristátie. Frázy pre každú situáciu na letisku — colnica, batožina, brána." },
+        { type:"phrases", title:"Kľúčové frázy", phrases:[
+          { sk:"Kde je check-in pre let do Londýna?", en:"Where is the check-in for the flight to London?", note:"Vždy uveď destináciu — na veľkom letisku je 20+ check-in prepážok" },
+          { sk:"Mám iba príručnú batožinu.", en:"I only have carry-on luggage.", note:"'Carry-on' = príručná batožina. 'Checked baggage' = podaná batožina" },
+          { sk:"Má let meškanie?", en:"Is the flight delayed?", note:"'Delayed' = oneskoreý. Môžeš aj pozrieť departure board = odletová tabuľa" },
+          { sk:"Kde je brána číslo 14?", en:"Where is gate 14?", note:"'Gate' = brána. 'Terminal' = terminál (iná budova)" },
+          { sk:"Idem na dovolenku.", en:"I'm here on holiday / vacation.", note:"'Holiday' = britská angličtina, 'vacation' = americká. Oboje funguje." }
+        ]},
+        { type:"dialogue", title:"Reálny dialóg", scene:"Colnica na letisku v Londýne.", lines:[
+          { role:"Colník", text:"Passport, please.", isMe:false },
+          { role:"Ty", text:"Here you go.", isMe:true },
+          { role:"Colník", text:"What's the purpose of your visit?", isMe:false },
+          { role:"Ty", text:"I'm here on holiday.", isMe:true },
+          { role:"Colník", text:"How long are you staying?", isMe:false },
+          { role:"Ty", text:"One week.", isMe:true },
+          { role:"Colník", text:"Where are you staying?", isMe:false },
+          { role:"Ty", text:"At a hotel in central London.", isMe:true },
+          { role:"Colník", text:"Enjoy your stay!", isMe:false }
+        ]},
+        { type:"quiz", title:"Rýchly test", questions:[
+          { q:"Pýtaš sa kde je check-in:", opts:["Where is the check-in for the London flight?","Check-in London where it is?","I need check-in London please where?"], cor:0 },
+          { q:"Máš len príručnú batožinu:", opts:["I only have carry-on luggage.","I have small bag only with me.","Only hand bag me have."], cor:0 },
+          { q:"Colník sa pýta na účel návštevy:", opts:["I'm here on holiday.","My visit purpose is holiday.","Holiday for I come here."], cor:0 }
+        ]},
+        { type:"done" }
+      ]
+    },
+    {
+      id:"work-intro", icon:"💼", name:"V práci — úvod", sub:"Predstavenie, small talk, kolegovia",
+      reminder:"12:30", color:"#60a5fa",
+      steps:[
+        { type:"intro", title:"V práci 💼", desc:"Prvý deň v novej práci alebo stretnutie s klientom. Small talk, predstavenie, zdvorilé frázy." },
+        { type:"phrases", title:"Kľúčové frázy", phrases:[
+          { sk:"Volám sa Marek a som nový v tíme.", en:"My name is Marek and I'm new to the team.", note:"'New to the team' — štandardná fráza pri predstavení v práci" },
+          { sk:"Čím sa zaoberáte / v čom pracujete?", en:"What do you do for work?", note:"Základná otázka na small talk. Casualnejšie ako 'What is your profession?'" },
+          { sk:"Pracujem v oblasti financií.", en:"I work in finance.", note:"'In finance / marketing / IT / sales' — odvetvia bez člena 'the'" },
+          { sk:"Tešíme sa na spoluprácu.", en:"We're looking forward to working with you.", note:"'Looking forward to' + ing — klasická zdvorilostná fráza v biznise" },
+          { sk:"Mohli by sme si dohodnúť meeting?", en:"Could we schedule a meeting?", note:"'Schedule' = dohodnúť/naplánovať. Formálnejšie ako 'Can we meet?'" }
+        ]},
+        { type:"dialogue", title:"Reálny dialóg", scene:"Stretnutie s novým klientom v kancelárii.", lines:[
+          { role:"Klient", text:"Hi, I'm Sarah from TechCorp. Nice to meet you.", isMe:false },
+          { role:"Ty", text:"Nice to meet you too! I'm Marek. Thank you for coming.", isMe:true },
+          { role:"Klient", text:"Of course! So, what exactly does your company do?", isMe:false },
+          { role:"Ty", text:"We work in corporate finance — mainly M&A advisory.", isMe:true },
+          { role:"Klient", text:"Interesting! How long have you been in the industry?", isMe:false },
+          { role:"Ty", text:"About seven years now. Could we schedule a call next week to discuss further?", isMe:true },
+          { role:"Klient", text:"Absolutely, looking forward to it!", isMe:false }
+        ]},
+        { type:"quiz", title:"Rýchly test", questions:[
+          { q:"Predstavuješ sa ako nový v tíme:", opts:["I'm new to the team.","I am newly joined here.","New team member here I am."], cor:0 },
+          { q:"Chceš dohodnúť meeting:", opts:["Could we schedule a meeting?","Can meeting we have?","Meeting schedule please possible?"], cor:0 },
+          { q:"Pracuješ v IT sektore:", opts:["I work in IT.","I work in the IT sector field.","My job is in IT work area."], cor:0 }
+        ]},
+        { type:"done" }
+      ]
+    },
+    {
+      id:"restaurant", icon:"🍽️", name:"V reštaurácii", sub:"Objednávanie, reklamácia, platba",
+      reminder:"19:00", color:"#f97316",
+      steps:[
+        { type:"intro", title:"V reštaurácii 🍽️", desc:"Od rezervácie stola po platbu. Zvládneš každú reštauráciu — od bistra po fine dining." },
+        { type:"phrases", title:"Kľúčové frázy", phrases:[
+          { sk:"Rezervoval som stôl na 7 hodinu.", en:"I have a reservation for 7 o'clock.", note:"Ak nemáš rezerváciu: 'Do you have a table for two?' = Máte stôl pre dvoch?" },
+          { sk:"Môžem vidieť jedálny lístok?", en:"Could I see the menu, please?", note:"'Could I' = zdvorilejšie ako 'Can I' — v reštaurácii vždy 'could'" },
+          { sk:"Čo odporúčate?", en:"What do you recommend?", note:"Čašník/čašníčka = waiter/waitress. Obrátiš sa: 'Excuse me!' alebo 'Excuse me, waiter!'" },
+          { sk:"Som alergický na orechy.", en:"I'm allergic to nuts.", note:"Dôležité! 'Allergic to' + potravina. 'I'm vegetarian/vegan' = som vegetarián/vegán" },
+          { sk:"Môžeme dostať účet, prosím?", en:"Could we have the bill, please?", note:"'Bill' = účet (UK). V USA hovoria 'check'. 'Split the bill' = rozdeliť účet" }
+        ]},
+        { type:"dialogue", title:"Reálny dialóg", scene:"Večera v londýnskej reštaurácii.", lines:[
+          { role:"Čašník", text:"Good evening! Do you have a reservation?", isMe:false },
+          { role:"Ty", text:"Yes, I have a reservation for 7 o'clock, name Novák.", isMe:true },
+          { role:"Čašník", text:"Perfect, right this way. Can I get you some drinks to start?", isMe:false },
+          { role:"Ty", text:"Could I see the menu first, please?", isMe:true },
+          { role:"Čašník", text:"Of course! Here you are. Our special tonight is sea bass.", isMe:false },
+          { role:"Ty", text:"What do you recommend from the menu?", isMe:true },
+          { role:"Čašník", text:"The steak is excellent tonight.", isMe:false },
+          { role:"Ty", text:"I'll have that. Could we also have the bill at the end on one card?", isMe:true }
+        ]},
+        { type:"quiz", title:"Rýchly test", questions:[
+          { q:"Chceš vidieť jedálny lístok:", opts:["Could I see the menu, please?","I want to see menu.","Menu show me please."], cor:0 },
+          { q:"Si alergický na laktózu:", opts:["I'm allergic to lactose.","Lactose allergy I have.","No lactose for me please maybe."], cor:0 },
+          { q:"Žiadaš o účet:", opts:["Could we have the bill, please?","Bill please give us.","We want pay now bill."], cor:0 }
+        ]},
+        { type:"done" }
+      ]
+    }
+  ],
+  B1: [
+    {
+      id:"meeting", icon:"📊", name:"Pracovný meeting", sub:"Prezentovanie, otázky, diskusia",
+      reminder:"8:00", color:"#e8ff6b",
+      steps:[
+        { type:"intro", title:"Pracovný meeting 📊", desc:"Vedie meeting, prezentuje návrhy, kladie otázky. Profesionálna angličtina pre business prostredie." },
+        { type:"phrases", title:"Kľúčové frázy", phrases:[
+          { sk:"Prejdeme teraz k hlavnému bodu.", en:"Let's move on to the main point.", note:"'Let's move on' = poďme ďalej — štruktúruje meeting" },
+          { sk:"Chcel by som vzniesť otázku.", en:"I'd like to raise a question.", note:"'Raise a question' = formálne vzniesť otázku — profesionálnejšie ako 'I have a question'" },
+          { sk:"Ak som správne pochopil...", en:"If I understand correctly...", note:"Výborná fráza ak si nie ste istí — ukazuje pozornosť a záujem" },
+          { sk:"Mohli by sme to rozviesť?", en:"Could you elaborate on that?", note:"'Elaborate' = rozviesť, vysvetliť podrobnejšie — B2 level fráza" },
+          { sk:"Navrhol by som iný prístup.", en:"I'd like to suggest a different approach.", note:"Zdvorilý spôsob ako nesúhlasiť a navrhnúť alternatívu" }
+        ]},
+        { type:"dialogue", title:"Reálny dialóg", scene:"Týždenný tím meeting.", lines:[
+          { role:"Manager", text:"OK team, let's get started. First, the Q3 numbers.", isMe:false },
+          { role:"Ty", text:"Before we start — I'd like to raise a question about the timeline.", isMe:true },
+          { role:"Manager", text:"Go ahead.", isMe:false },
+          { role:"Ty", text:"If I understand correctly, we're targeting Q4 for the launch. Is that still the plan?", isMe:true },
+          { role:"Manager", text:"Correct. Could you elaborate on your concern?", isMe:false },
+          { role:"Ty", text:"I'd like to suggest a different approach — starting with a soft launch in October.", isMe:true },
+          { role:"Manager", text:"Interesting. Let's discuss that. Let's move on to the numbers first.", isMe:false }
+        ]},
+        { type:"quiz", title:"Rýchly test", questions:[
+          { q:"Chceš vzniesť otázku v meetingu:", opts:["I'd like to raise a question.","I have question please.","Question raising I want do."], cor:0 },
+          { q:"Žiadaš o podrobnejšie vysvetlenie:", opts:["Could you elaborate on that?","More explain this please?","You tell more about this."], cor:0 },
+          { q:"Navrhuješ iný postup:", opts:["I'd like to suggest a different approach.","I think other way better.","Different approach suggesting me."], cor:0 }
+        ]},
+        { type:"done" }
+      ]
+    },
+    {
+      id:"networking", icon:"🤝", name:"Networking", sub:"Nadviazanie kontaktu, follow-up",
+      reminder:"12:30", color:"#60a5fa",
+      steps:[
+        { type:"intro", title:"Networking 🤝", desc:"Konferencie, biznis eventy, LinkedIn. Ako nadviazať kontakt a udržiavať vzťahy v angličtine." },
+        { type:"phrases", title:"Kľúčové frázy", phrases:[
+          { sk:"Čím sa zaoberáš / v čom pracuješ?", en:"What do you do / what's your background?", note:"'Background' = skúsenosti a oblasť — sofistikovanejšie ako 'What's your job?'" },
+          { sk:"Pracujem v oblasti M&A v corporate finance.", en:"I work in M&A within corporate finance.", note:"'Within' = v rámci — presnejšie ako 'in corporate finance and also M&A'" },
+          { sk:"Určite si vymeňme kontakty.", en:"We should definitely exchange contacts.", note:"Alebo: 'Can I get your LinkedIn?' = môžem ťa pridať na LinkedIn?" },
+          { sk:"Ozvem sa ti budúci týždeň.", en:"I'll be in touch next week.", note:"'Be in touch' = ozvať sa, zostať v kontakte — klasická networking fráza" },
+          { sk:"Bol som veľmi rád, že sme sa stretli.", en:"It was great meeting you.", note:"Záverečná fráza pri rozlúčke — 'great meeting you' nie 'great to meet you' (minulý čas!)" }
+        ]},
+        { type:"dialogue", title:"Reálny dialóg", scene:"Biznis konferencia, coffee break.", lines:[
+          { role:"Kontakt", text:"Hi, I don't think we've met. I'm James, from BlackRock.", isMe:false },
+          { role:"Ty", text:"Hi James, I'm Marek. I work in M&A within corporate finance.", isMe:true },
+          { role:"Kontakt", text:"Interesting! Which side — buy side or sell side?", isMe:false },
+          { role:"Ty", text:"Mostly buy side. What's your background?", isMe:true },
+          { role:"Kontakt", text:"Private equity, been at BlackRock for about five years.", isMe:false },
+          { role:"Ty", text:"We should definitely exchange contacts — could be useful down the line.", isMe:true },
+          { role:"Kontakt", text:"Absolutely. Here's my card.", isMe:false },
+          { role:"Ty", text:"Thank you. It was great meeting you, James!", isMe:true }
+        ]},
+        { type:"quiz", title:"Rýchly test", questions:[
+          { q:"Pýtaš sa na profesionálne pozadie:", opts:["What's your background?","What is your job work?","Your profession area what?"], cor:0 },
+          { q:"Chceš si vymeniť kontakty:", opts:["We should definitely exchange contacts.","Contacts exchange us should.","Give me your number please contact."], cor:0 },
+          { q:"Lúčiš sa po networkingu:", opts:["It was great meeting you!","Great you meet was it!","Was nice to meet meeting!"], cor:0 }
+        ]},
+        { type:"done" }
+      ]
+    },
+    {
+      id:"doctor", icon:"🏥", name:"U lekára", sub:"Príznaky, otázky, inštrukcie",
+      reminder:"19:00", color:"#f87171",
+      steps:[
+        { type:"intro", title:"U lekára 🏥", desc:"Opísať príznaky, pochopiť inštrukcie, spýtať sa na liečbu. Frázy pre každú zdravotnú situáciu v zahraničí." },
+        { type:"phrases", title:"Kľúčové frázy", phrases:[
+          { sk:"Bolí ma hlava / hrdlo / brucho.", en:"I have a headache / sore throat / stomachache.", note:"'Headache' = bolesť hlavy, 'sore throat' = boľavé hrdlo, 'stomachache' = brucho" },
+          { sk:"Toto trvá už tri dni.", en:"This has been going on for three days.", note:"'Has been going on' = trvá (present perfect) — lekár vždy pýta 'how long?'" },
+          { sk:"Som alergický na penicilín.", en:"I'm allergic to penicillin.", note:"Dôležité vedieť po anglicky — môže zachrániť život v zahraničí" },
+          { sk:"Aké sú vedľajšie účinky?", en:"What are the side effects?", note:"'Side effects' = vedľajšie účinky. 'Dosage' = dávkovanie" },
+          { sk:"Potrebujem potvrdenie pre poisťovňu.", en:"I need a document for my insurance.", note:"'Insurance' = poisťovňa/poistenie. 'Medical certificate' = lekárske potvrdenie" }
+        ]},
+        { type:"dialogue", title:"Reálny dialóg", scene:"U všeobecného lekára v Londýne.", lines:[
+          { role:"Lekár", text:"So, what seems to be the problem?", isMe:false },
+          { role:"Ty", text:"I have a sore throat and a headache. It's been going on for three days.", isMe:true },
+          { role:"Lekár", text:"Any fever?", isMe:false },
+          { role:"Ty", text:"Yes, a mild one. Around 37.8.", isMe:true },
+          { role:"Lekár", text:"Are you allergic to any medications?", isMe:false },
+          { role:"Ty", text:"Yes, I'm allergic to penicillin.", isMe:true },
+          { role:"Lekár", text:"I'll prescribe something else. Take it twice a day.", isMe:false },
+          { role:"Ty", text:"What are the side effects? And could I get a document for my insurance?", isMe:true }
+        ]},
+        { type:"quiz", title:"Rýchly test", questions:[
+          { q:"Bolí ťa hrdlo:", opts:["I have a sore throat.","My throat is pain me.","Throat hurting I have pain."], cor:0 },
+          { q:"Si alergický na aspirín:", opts:["I'm allergic to aspirin.","Aspirin allergy I am.","No aspirin please allergy."], cor:0 },
+          { q:"Pýtaš sa na vedľajšie účinky:", opts:["What are the side effects?","Effects side what are they?","Medicine has what effects side?"], cor:0 }
+        ]},
+        { type:"done" }
+      ]
+    }
+  ]
+};
+
+// ==================== STATE ====================
+let ST = {
+  qIdx: 0,
+  scores: { A1: 0, A2: 0, B1: 0 },
+  level: null,
+  completedLessons: JSON.parse(localStorage.getItem('se_completed') || '[]'),
+  lessonKey: null,
+  lessonStepIdx: 0,
+  quizIdx: 0,
+  quizScore: 0
+};
+
+// ==================== UTILS ====================
+function show(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function hrs() {
+  const h = new Date().getHours();
+  if (h < 12) return "Dobré ráno 👋";
+  if (h < 18) return "Dobré popoludnie 👋";
+  return "Dobrý večer 👋";
+}
+
+// ==================== ASSESSMENT ====================
+function startAssessment() {
+  ST.qIdx = 0; ST.scores = { A1:0, A2:0, B1:0 };
+  show('s-assess');
+  renderQ();
+}
+
+function renderQ() {
+  const q = QUESTIONS[ST.qIdx];
+  const pct = Math.round((ST.qIdx / QUESTIONS.length) * 100);
+  document.getElementById('assess-prog').style.width = (pct + 12) + '%';
+  document.getElementById('q-counter').textContent = `Otázka ${ST.qIdx + 1} / ${QUESTIONS.length}`;
+  const letters = ['A','B','C','D'];
+  document.getElementById('assess-body').innerHTML = `
+    <div class="q-situation">${q.sit}</div>
+    <div class="q-text">${q.q}</div>
+    <div class="options" id="opts">
+      ${q.opts.map((o,i) => `<button class="option" onclick="pickAnswer(${i})" id="opt${i}">
+        <div class="opt-letter">${letters[i]}</div>${o}
+      </button>`).join('')}
+    </div>
+    <div id="fb"></div>
+  `;
+}
+
+function pickAnswer(i) {
+  const q = QUESTIONS[ST.qIdx];
+  document.querySelectorAll('.option').forEach(o => o.setAttribute('onclick',''));
+  if (i === q.cor) {
+    document.getElementById('opt'+i).classList.add('correct');
+    ST.scores[q.lvl]++;
+    document.getElementById('fb').innerHTML = `<div class="feedback-msg feedback-correct">✓ Správne!</div>`;
+  } else {
+    document.getElementById('opt'+i).classList.add('wrong');
+    document.getElementById('opt'+q.cor).classList.add('correct');
+    document.getElementById('fb').innerHTML = `<div class="feedback-msg feedback-wrong">✗ Správna odpoveď: "${q.opts[q.cor]}"</div>`;
+  }
+  setTimeout(() => {
+    ST.qIdx++;
+    if (ST.qIdx < QUESTIONS.length) renderQ();
+    else showResult();
+  }, 1500);
+}
+
+function showResult() {
+  document.getElementById('assess-prog').style.width = '100%';
+  const s = ST.scores;
+  let lv = 'A1';
+  if (s.B1 >= 2) lv = 'B1';
+  else if (s.A2 >= 2) lv = 'A2';
+  ST.level = lv;
+  localStorage.setItem('se_level', lv);
+  const names = { A1:'Začiatočník', A2:'Mierne pokročilý', B1:'Stredne pokročilý' };
+  const descs = {
+    A1:'Zvládaš základy. Začneme s kaviarňami, nakupovaním a hotelmi — situácie ktoré zažiješ hneď po pristátí.',
+    A2:'Dobrý základ! Posunieme sa na letisko, prácu a reštaurácie — komunikácia v bežnom živote.',
+    B1:'Výborne! Pracovná komunikácia, networking a zložitejšie situácie — to je tvoj level.'
+  };
+  document.getElementById('r-level').textContent = lv;
+  document.getElementById('r-title').textContent = names[lv];
+  document.getElementById('r-desc').textContent = descs[lv];
+  document.getElementById('r-scores').innerHTML = ['A1','A2','B1'].map(l => `
+    <div class="score-box"><div class="score-num" style="color:${s[l]>0?'var(--accent)':'var(--text3)'}">${s[l]}/2</div><div class="score-lbl">${l} otázky</div></div>
+  `).join('');
+  show('s-result');
+}
+
+// ==================== DASHBOARD ====================
+function goToDashboard() {
+  const lv = ST.level || localStorage.getItem('se_level') || 'A2';
+  ST.level = lv;
+  document.getElementById('dash-greeting').textContent = hrs();
+  document.getElementById('dash-headline').textContent = 'Dnešné lekcie';
+  document.getElementById('s-level-stat').textContent = lv;
+  const done = ST.completedLessons.length;
+  document.getElementById('s-done').textContent = `${Math.min(done,3)}/3`;
+  renderLessonList();
+  show('s-dash');
+}
+
+function renderLessonList() {
+  const lv = ST.level || 'A2';
+  const lessons = LESSONS_DATA[lv] || LESSONS_DATA.A2;
+  const list = document.getElementById('lesson-list');
+  list.innerHTML = lessons.map((l, i) => {
+    const isDone = ST.completedLessons.includes(l.id);
+    const isActive = !isDone && (i === 0 || ST.completedLessons.includes(lessons[i-1]?.id));
+    const isLocked = !isDone && !isActive;
+    return `<div class="lesson-item ${isDone?'done':''} ${isActive?'active-lesson':''} ${isLocked?'locked':''}"
+      onclick="${isLocked ? 'alert(\"Dokonči predchádzajúcu lekciu!\")' : `openLesson('${l.id}')`}">
+      <div class="lesson-ico">${l.icon}</div>
+      <div class="lesson-info">
+        <div class="lesson-name">${l.name}</div>
+        <div class="lesson-sub">${l.sub} · 🔔 ${l.reminder}</div>
+      </div>
+      <div class="lesson-badge">
+        ${isDone ? '<span class="pill pill-green">✓ Hotovo</span>' : isActive ? '<span class="pill pill-accent">Aktívna</span>' : '<span style="font-size:18px">🔒</span>'}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ==================== LESSON ====================
+function openLesson(id) {
+  const lv = ST.level || 'A2';
+  const lesson = (LESSONS_DATA[lv] || LESSONS_DATA.A2).find(l => l.id === id);
+  if (!lesson) return;
+  ST.lessonKey = id;
+  ST.lessonStepIdx = 0;
+  ST.quizIdx = 0;
+  ST.quizScore = 0;
+  document.getElementById('lesson-h-title').textContent = lesson.name;
+  show('s-lesson');
+  renderLessonStep();
+}
+
+function renderLessonStep() {
+  const lv = ST.level || 'A2';
+  const lesson = (LESSONS_DATA[lv] || LESSONS_DATA.A2).find(l => l.id === ST.lessonKey);
+  const steps = lesson.steps;
+  const step = steps[ST.lessonStepIdx];
+  const total = steps.length - 1;
+  const pct = Math.round((ST.lessonStepIdx / total) * 100);
+  document.getElementById('lesson-prog').style.width = pct + '%';
+  document.getElementById('lesson-step-pill').textContent = `${ST.lessonStepIdx + 1}/${total}`;
+  const body = document.getElementById('lesson-body');
+  const footer = document.getElementById('lesson-footer');
+
+  if (step.type === 'intro') {
+    body.innerHTML = `
+      <div style="padding-top:12px;">
+        <div style="font-size:52px; margin-bottom:20px;">${lesson.icon}</div>
+        <h2 style="margin-bottom:12px; letter-spacing:-0.5px;">${step.title}</h2>
+        <p style="font-size:16px; line-height:1.7; margin-bottom:24px;">${step.desc}</p>
+        <div class="card" style="margin-bottom:16px;">
+          <div style="font-size:12px; color:var(--text3); font-weight:700; letter-spacing:0.06em; text-transform:uppercase; margin-bottom:12px;">Dnešná lekcia obsahuje</div>
+          ${['📚 5 kľúčových fráz', '💬 Reálny dialóg zo života', '✅ Rýchly kvíz na overenie'].map(i => `<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:0.5px solid var(--border);font-size:14px;">${i}</div>`).join('')}
+        </div>
+      </div>`;
+    footer.innerHTML = `<button class="btn btn-primary" onclick="nextStep()">Začať lekciu →</button>`;
+
+  } else if (step.type === 'phrases') {
+    body.innerHTML = `
+      <div class="step-label">${step.title}</div>
+      ${step.phrases.map((p,i) => `
+        <div class="phrase-card">
+          <div class="phrase-sk">🇸🇰 ${p.sk}</div>
+          <div class="phrase-en">${p.en}</div>
+          <div class="phrase-note">💡 ${p.note}</div>
+        </div>`).join('')}`;
+    footer.innerHTML = `<button class="btn btn-primary" onclick="nextStep()">Pokračovať → Dialóg</button>`;
+
+  } else if (step.type === 'dialogue') {
+    body.innerHTML = `
+      <div class="step-label">${step.title}</div>
+      <div style="background:var(--bg2);border:0.5px solid var(--border);border-radius:var(--r);padding:12px 14px;margin-bottom:20px;font-size:13px;color:var(--text3);">📍 ${step.scene}</div>
+      ${step.lines.map(l => `
+        <div class="dialogue-bubble">
+          <div class="bubble-role">${l.role}</div>
+          <div class="bubble-text ${l.isMe ? 'bubble-me' : 'bubble-other'}">${l.text}</div>
+        </div>`).join('')}`;
+    footer.innerHTML = `<button class="btn btn-primary" onclick="nextStep()">Pokračovať → Kvíz</button>`;
+
+  } else if (step.type === 'quiz') {
+    renderQuizStep(step);
+    return;
+
+  } else if (step.type === 'done') {
+    body.innerHTML = `
+      <div class="completion-screen">
+        <div class="completion-emoji">🎉</div>
+        <div class="completion-title">Lekcia dokončená!</div>
+        <div class="completion-sub">Skvele! Naučil si sa 5 nových fráz a precvičil si ich v reálnom dialógu.</div>
+        <div class="completion-stats">
+          <div class="completion-stat"><div class="completion-stat-val">5</div><div class="completion-stat-lbl">nových fráz</div></div>
+          <div class="completion-stat"><div class="completion-stat-val">${ST.quizScore}/3</div><div class="completion-stat-lbl">kvíz</div></div>
+          <div class="completion-stat"><div class="completion-stat-val">15'</div><div class="completion-stat-lbl">čas</div></div>
+        </div>
+        <div style="width:100%; display:flex; flex-direction:column; gap:10px;">
+          <button class="btn btn-primary" onclick="downloadPDF()">📄 Stiahnuť PDF zhrnutie</button>
+          <button class="btn btn-secondary" onclick="backToDash()">← Späť na prehľad</button>
+        </div>
+      </div>`;
+    footer.innerHTML = '';
+    if (!ST.completedLessons.includes(ST.lessonKey)) {
+      ST.completedLessons.push(ST.lessonKey);
+      localStorage.setItem('se_completed', JSON.stringify(ST.completedLessons));
+    }
+    return;
+  }
+}
+
+function renderQuizStep(step) {
+  ST.quizIdx = 0; ST.quizScore = 0;
+  renderSingleQuiz(step);
+}
+
+function renderSingleQuiz(step) {
+  const body = document.getElementById('lesson-body');
+  const footer = document.getElementById('lesson-footer');
+  if (ST.quizIdx >= step.questions.length) {
+    nextStep(); return;
+  }
+  const q = step.questions[ST.quizIdx];
+  body.innerHTML = `
+    <div class="step-label">Kvíz — ${ST.quizIdx+1} / ${step.questions.length}</div>
+    <div class="quiz-card">
+      <div class="quiz-q">${q.q}</div>
+      <div class="quiz-options">
+        ${q.opts.map((o,i) => `<button class="quiz-opt" id="qo${i}" onclick="pickQuiz(${i},${q.cor})">${o}</button>`).join('')}
+      </div>
+      <div id="qfb" style="margin-top:14px;"></div>
+    </div>`;
+  footer.innerHTML = '';
+}
+
+function pickQuiz(i, cor) {
+  document.querySelectorAll('.quiz-opt').forEach(o => o.setAttribute('onclick',''));
+  const lv = ST.level || 'A2';
+  const lesson = (LESSONS_DATA[lv] || LESSONS_DATA.A2).find(l => l.id === ST.lessonKey);
+  const quizStep = lesson.steps.find(s => s.type === 'quiz');
+  if (i === cor) {
+    document.getElementById('qo'+i).classList.add('correct');
+    ST.quizScore++;
+    document.getElementById('qfb').innerHTML = `<div class="feedback-msg feedback-correct">✓ Správne!</div>`;
+  } else {
+    document.getElementById('qo'+i).classList.add('wrong');
+    document.getElementById('qo'+cor).classList.add('correct');
+    document.getElementById('qfb').innerHTML = `<div class="feedback-msg feedback-wrong">✗ Správne: "${quizStep.questions[ST.quizIdx].opts[cor]}"</div>`;
+  }
+  ST.quizIdx++;
+  setTimeout(() => renderSingleQuiz(quizStep), 1400);
+}
+
+function nextStep() {
+  ST.lessonStepIdx++;
+  renderLessonStep();
+}
+
+function backToDash() {
+  goToDashboard();
+}
+
+// ==================== PDF ====================
+function downloadPDF() {
+  const lv = ST.level || 'A2';
+  const lesson = (LESSONS_DATA[lv] || LESSONS_DATA.A2).find(l => l.id === ST.lessonKey);
+  if (!lesson) return;
+  const phrasesStep = lesson.steps.find(s => s.type === 'phrases');
+  const dialogueStep = lesson.steps.find(s => s.type === 'dialogue');
+  
+  const html = `<!DOCTYPE html><html><head><meta charset="UTF-8">
+  <style>
+    body { font-family: -apple-system, Arial, sans-serif; max-width: 680px; margin: 40px auto; padding: 0 24px; color: #1a1a1a; }
+    h1 { font-size: 26px; margin-bottom: 4px; }
+    .meta { color: #666; font-size: 13px; margin-bottom: 32px; }
+    h2 { font-size: 16px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: #666; margin: 28px 0 14px; border-bottom: 1px solid #eee; padding-bottom: 6px; }
+    .phrase { margin-bottom: 16px; padding: 14px; border: 1px solid #eee; border-radius: 8px; }
+    .phrase-sk { font-size: 13px; color: #888; margin-bottom: 4px; }
+    .phrase-en { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+    .phrase-note { font-size: 12px; color: #888; background: #f5f5f5; padding: 6px 8px; border-radius: 4px; }
+    .bubble { margin-bottom: 12px; }
+    .bubble-role { font-size: 10px; font-weight: 700; color: #888; text-transform: uppercase; margin-bottom: 3px; }
+    .bubble-text { padding: 10px 12px; border-radius: 8px; font-size: 14px; }
+    .bubble-me { background: #f0f7e6; border: 1px solid #c5e0a0; }
+    .bubble-other { background: #f5f5f5; border: 1px solid #e0e0e0; }
+    .footer { margin-top: 48px; padding-top: 16px; border-top: 1px solid #eee; font-size: 12px; color: #aaa; text-align: center; }
+  </style></head><body>
+  <h1>${lesson.icon} ${lesson.name}</h1>
+  <div class="meta">SpeakEasy · Level ${lv} · ${new Date().toLocaleDateString('sk-SK')}</div>
+  <h2>Kľúčové frázy</h2>
+  ${phrasesStep.phrases.map(p => `<div class="phrase"><div class="phrase-sk">🇸🇰 ${p.sk}</div><div class="phrase-en">${p.en}</div><div class="phrase-note">💡 ${p.note}</div></div>`).join('')}
+  <h2>Reálny dialóg</h2>
+  <p style="font-size:13px;color:#888;margin-bottom:14px;">📍 ${dialogueStep.scene}</p>
+  ${dialogueStep.lines.map(l => `<div class="bubble"><div class="bubble-role">${l.role}</div><div class="bubble-text ${l.isMe?'bubble-me':'bubble-other'}">${l.text}</div></div>`).join('')}
+  <div class="footer">SpeakEasy — Nauč sa angličtinu za 15 minút denne</div>
+  </body></html>`;
+  
+  const blob = new Blob([html], { type: 'text/html' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `SpeakEasy-${lesson.id}.html`;
+  a.click();
+  URL.revokeObjectURL(url);
+  setTimeout(() => { if(window.print) { /* open print dialog? */ } }, 300);
+}
+
+// ==================== REMINDERS ====================
+function showReminders() {
+  const ok = confirm('Povoliť notifikácie pre pripomienky lekcií?\n\n🔔 Lekcia 1: 8:00\n🔔 Lekcia 2: 12:30\n🔔 Lekcia 3: 19:00');
+  if (ok && 'Notification' in window) {
+    Notification.requestPermission().then(p => {
+      if (p === 'granted') {
+        alert('✓ Notifikácie povolené! Budeme ťa upozorňovať na lekcie.');
+      } else {
+        alert('Notifikácie neboli povolené. Môžeš ich zapnúť v nastaveniach telefónu.');
+      }
+    });
+  }
+}
+
+// ==================== INIT ====================
+(function init() {
+  const savedLevel = localStorage.getItem('se_level');
+  if (savedLevel) {
+    ST.level = savedLevel;
+    goToDashboard();
+  }
+})();
+</script>
+</body>
+</html>
