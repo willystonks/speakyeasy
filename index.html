@@ -310,46 +310,123 @@ const QUESTIONS = [
 const LESSONS_DATA = {
   A1: [
     {
-      id:"cafe", icon:"☕", name:"V kaviarni", sub:"Objednávanie, platenie, zdvorilosť",
-      reminder:"8:00", color:"#e8ff6b",
+      id:"cafe", icon:"☕", name:"V kaviarni", sub:"Objednávanie, platenie, zdvorilosť", reminder:"8:00",
       steps:[
-        { type:"intro", title:"V kaviarni ☕", desc:"Dnes sa naučíš 5 fráz, ktoré použiješ v každej kaviarni na svete. Potom si ich precvičíš cez reálny dialóg." },
+        { type:"intro", title:"V kaviarni ☕", desc:"5 fráz ktoré použiješ v každej kaviarni na svete. Potom reálny dialóg a krátky kvíz." },
         { type:"phrases", title:"Kľúčové frázy", phrases:[
           { sk:"Dám si jedno veľké latté, prosím.", en:"I'd like a large latte, please.", note:"'I'd like' je zdvorilejšie ako 'I want' — vždy použi toto" },
-          { sk:"Koľko to stojí?", en:"How much is it?", note:"Klasická otázka. Môžeš aj: 'How much does this cost?'" },
-          { sk:"Môžem platiť kartou?", en:"Can I pay by card?", note:"Alebo: 'Do you take card?' — oboje je správne" },
-          { sk:"Je tu voľné miesto?", en:"Is this seat taken?", note:"Pytáš sa či je miesto obsadené — kľúčová fráza v kaviarni" },
+          { sk:"Koľko to stojí?", en:"How much is it?", note:"Klasická otázka na cenu. Možno aj: 'How much does this cost?'" },
+          { sk:"Môžem platiť kartou?", en:"Can I pay by card?", note:"Alebo: 'Do you take card?' — oboje funguje" },
+          { sk:"Je tu voľné miesto?", en:"Is this seat taken?", note:"Pýtaš sa či je miesto obsadené" },
           { sk:"Ďakujem, bolo to výborné.", en:"Thank you, it was delicious!", note:"'Delicious' = výborné / chutné — silnejšie ako 'good'" }
         ]},
         { type:"dialogue", title:"Reálny dialóg", scene:"Objednávaš si v kaviarni v Londýne.", lines:[
           { role:"Barista", text:"Hi there! What can I get you today?", isMe:false },
           { role:"Ty", text:"I'd like a large oat milk latte, please.", isMe:true },
-          { role:"Barista", text:"Sure! Anything else — maybe a pastry?", isMe:false },
-          { role:"Ty", text:"No thanks, that's all. How much is it?", isMe:true },
+          { role:"Barista", text:"Sure! Anything else?", isMe:false },
+          { role:"Ty", text:"No thanks. How much is it?", isMe:true },
           { role:"Barista", text:"That's £4.80. Card or cash?", isMe:false },
-          { role:"Ty", text:"Card, please.", isMe:true },
-          { role:"Barista", text:"Perfect, thank you! Have a great day!", isMe:false },
-          { role:"Ty", text:"You too, thanks!", isMe:true }
+          { role:"Ty", text:"Card, please.", isMe:true }
         ]},
         { type:"quiz", title:"Rýchly test", questions:[
-          { q:"Chceš si objednať cappuccino. Čo povieš?", opts:["I'd like a cappuccino, please.","Give me cappuccino.","One cappuccino I want."], cor:0 },
-          { q:"Ako sa opýtaš na cenu?", opts:["How much is it?","What is the price number?","Cost how much?"], cor:0 },
-          { q:"Pýtaš sa či je miesto voľné:", opts:["Is this seat taken?","This seat is free?","Can I sit here please maybe?"], cor:0 }
+          { q:"Chceš objednať cappuccino:", opts:["I'd like a cappuccino, please.","Give me cappuccino.","One cappuccino I want."], cor:0 },
+          { q:"Pýtaš sa na cenu:", opts:["How much is it?","What is price?","Cost how much?"], cor:0 },
+          { q:"Chceš platiť kartou:", opts:["Can I pay by card?","Card payment please?","I have card money."], cor:0 }
         ]},
         { type:"done" }
       ]
     },
     {
-      id:"shopping", icon:"🛒", name:"Nakupovanie", sub:"Ceny, veľkosti, vrátenie tovaru",
-      reminder:"12:30", color:"#60a5fa",
+      id:"greetings", icon:"👋", name:"Pozdravy a predstavenie", sub:"Hello, goodbye, moje meno je...", reminder:"8:00",
+      steps:[
+        { type:"intro", title:"Pozdravy 👋", desc:"Základné pozdravy a predstavenie — prvé veci ktoré každý cudzinec počuje a potrebuje vedieť." },
+        { type:"phrases", title:"Kľúčové frázy", phrases:[
+          { sk:"Dobré ráno / dobrý deň / dobrý večer.", en:"Good morning / Good afternoon / Good evening.", note:"Morning = do 12, afternoon = 12-18, evening = po 18" },
+          { sk:"Volám sa Martin.", en:"My name is Martin. / I'm Martin.", note:"Oboje je správne — 'I'm' je bežnejšie v hovorenej reči" },
+          { sk:"Teší ma.", en:"Nice to meet you!", note:"Odpoveď: 'Nice to meet you too!' — vždy pridaj 'too'" },
+          { sk:"Ako sa máš?", en:"How are you?", note:"Odpoveď: 'Fine, thanks! And you?' — štandardná reakcia" },
+          { sk:"Zbohom / dovidenia.", en:"Goodbye! / See you later! / Bye!", note:"'See you later' = dovidenia — najčastejšie v bežnej reči" }
+        ]},
+        { type:"dialogue", title:"Reálny dialóg", scene:"Stretneš nového kolegu v práci.", lines:[
+          { role:"Kolega", text:"Hi! I'm Sarah. I just started here.", isMe:false },
+          { role:"Ty", text:"Hi Sarah! I'm Martin. Nice to meet you!", isMe:true },
+          { role:"Kolega", text:"Nice to meet you too! How are you?", isMe:false },
+          { role:"Ty", text:"Fine, thanks! And you?", isMe:true },
+          { role:"Kolega", text:"Great, thanks! See you around!", isMe:false },
+          { role:"Ty", text:"See you later!", isMe:true }
+        ]},
+        { type:"quiz", title:"Rýchly test", questions:[
+          { q:"Ako sa predstavíš?", opts:["I'm Martin.","Martin is my name being.","Me call Martin."], cor:0 },
+          { q:"Odpoveď na 'How are you?':", opts:["Fine, thanks! And you?","I am good person.","Fine I am."], cor:0 },
+          { q:"Ako sa rozlúčiš:", opts:["See you later!","Goodbye now please.","I go now bye go."], cor:0 }
+        ]},
+        { type:"done" }
+      ]
+    },
+    {
+      id:"numbers", icon:"🔢", name:"Čísla a ceny", sub:"Počítanie, platenie, rozmery", reminder:"12:30",
+      steps:[
+        { type:"intro", title:"Čísla a ceny 🔢", desc:"Čísla, ceny a rozmery — bez toho sa v anglicky hovoriacej krajine nezaobídeš ani deň." },
+        { type:"phrases", title:"Kľúčové frázy", phrases:[
+          { sk:"Jedno, dve, tri... desať, sto, tisíc.", en:"One, two, three... ten, hundred, thousand.", note:"Pozor: 'a hundred' nie 'one hundred' — bežnejšie v hovorenej reči" },
+          { sk:"To stojí päť libier päťdesiat.", en:"That's five pounds fifty.", note:"Britská mena: pounds (£). Centy sa v reči vynechávajú — 'five fifty'" },
+          { sk:"Potrebujem veľkosť 42.", en:"I need a size 42. / I'm a size 42.", note:"Európske veľkosti sa používajú aj v UK a US obchodoch" },
+          { sk:"Máte to vo väčšej veľkosti?", en:"Do you have this in a bigger size?", note:"Bigger = väčší. Smaller = menší. Narrower = užší." },
+          { sk:"Môžem dostať účtenku?", en:"Could I have a receipt, please?", note:"Receipt = účtenka. Vždy ber ak chceš vrátiť tovar." }
+        ]},
+        { type:"dialogue", title:"Reálny dialóg", scene:"Platiš v obchode.", lines:[
+          { role:"Predavač", text:"That'll be twelve pounds ninety, please.", isMe:false },
+          { role:"Ty", text:"Here you go. Could I have a receipt, please?", isMe:true },
+          { role:"Predavač", text:"Of course! Here's your change — seven pounds ten.", isMe:false },
+          { role:"Ty", text:"Thank you. Do you have this shirt in a bigger size?", isMe:true },
+          { role:"Predavač", text:"Let me check... we have it in XL.", isMe:false },
+          { role:"Ty", text:"Perfect, I'll take it!", isMe:true }
+        ]},
+        { type:"quiz", title:"Rýchly test", questions:[
+          { q:"Niečo stojí £8.50, ako to povieš?", opts:["Eight pounds fifty.","Eight and half pounds.","Pounds eight fifty zero."], cor:0 },
+          { q:"Chceš menšiu veľkosť:", opts:["Do you have this in a smaller size?","I want size smaller please.","Smaller size possible?"], cor:0 },
+          { q:"Chceš účtenku:", opts:["Could I have a receipt, please?","Give receipt me please.","Receipt want I."], cor:0 }
+        ]},
+        { type:"done" }
+      ]
+    },
+    {
+      id:"directions", icon:"🗺️", name:"Orientácia v meste", sub:"Kde je, ako sa dostanem, autobus", reminder:"19:00",
+      steps:[
+        { type:"intro", title:"Orientácia v meste 🗺️", desc:"Spýtať sa na cestu, pochopiť inštrukcie. Základné frázy pre každého cestovateľa." },
+        { type:"phrases", title:"Kľúčové frázy", phrases:[
+          { sk:"Ako sa dostanem na stanicu?", en:"How do I get to the station?", note:"'How do I get to...' = najčastejšia otázka na cestu" },
+          { sk:"Je to ďaleko?", en:"Is it far from here?", note:"Odpoveď: 'It's about 10 minutes walk' = asi 10 minút pešo" },
+          { sk:"Choďte rovno, potom odbočte vľavo.", en:"Go straight ahead, then turn left.", note:"Left = vľavo, Right = vpravo, Straight ahead = rovno" },
+          { sk:"Ktorý autobus ide do centra?", en:"Which bus goes to the city centre?", note:"City centre (UK) = downtown (US) = centrum mesta" },
+          { sk:"Kde je najbližšia stanica metra?", en:"Where is the nearest tube station?", note:"Tube = metro v Londýne. Inde: subway (US) alebo metro." }
+        ]},
+        { type:"dialogue", title:"Reálny dialóg", scene:"Pýtaš sa na cestu v Londýne.", lines:[
+          { role:"Ty", text:"Excuse me, how do I get to the National Museum?", isMe:true },
+          { role:"Okoloidúci", text:"Sure! Go straight ahead for two blocks, then turn left.", isMe:false },
+          { role:"Ty", text:"Is it far from here?", isMe:true },
+          { role:"Okoloidúci", text:"About ten minutes walk. You'll see it on your right.", isMe:false },
+          { role:"Ty", text:"Thank you so much!", isMe:true },
+          { role:"Okoloidúci", text:"No problem, enjoy your visit!", isMe:false }
+        ]},
+        { type:"quiz", title:"Rýchly test", questions:[
+          { q:"Pýtaš sa ako sa dostať na letisko:", opts:["How do I get to the airport?","Where is airport direction?","Airport how go there?"], cor:0 },
+          { q:"'Turn right' znamená:", opts:["Odbočte vpravo","Odbočte vľavo","Choďte rovno"], cor:0 },
+          { q:"Pýtaš sa na najbližšie metro:", opts:["Where is the nearest tube station?","Where metro near is?","Nearest metro where please?"], cor:0 }
+        ]},
+        { type:"done" }
+      ]
+    },
+    {
+      id:"shopping", icon:"🛒", name:"Nakupovanie", sub:"Ceny, veľkosti, vrátenie tovaru", reminder:"8:00",
       steps:[
         { type:"intro", title:"Nakupovanie 🛒", desc:"Veľkosti, ceny, reklamácie. Frázy pre každý obchod — od H&M po Apple Store." },
         { type:"phrases", title:"Kľúčové frázy", phrases:[
           { sk:"Máte toto aj vo veľkosti M?", en:"Do you have this in size medium?", note:"Veľkosti: small, medium, large, extra large (S/M/L/XL)" },
           { sk:"Môžem si to vyskúšať?", en:"Can I try this on?", note:"'Try on' = vyskúšať oblečenie — vždy ako jedno sloveso" },
-          { sk:"Kde sú skúšobné kabínky?", en:"Where are the fitting rooms?", note:"'Fitting rooms' = skúšobné kabínky (aj 'changing rooms')" },
-          { sk:"Chcem vrátiť tento tovar.", en:"I'd like to return this, please.", note:"'Return' = vrátiť. Na vrátenie vždy potrebuješ receipt = účtenku" },
-          { sk:"Máte nejaké zľavy / výpredaj?", en:"Do you have any sales on?", note:"'Sales' = výpredaj. 'Discount' = zľava na konkrétny tovar" }
+          { sk:"Kde sú skúšobné kabínky?", en:"Where are the fitting rooms?", note:"Fitting rooms = skúšobné kabínky (aj 'changing rooms')" },
+          { sk:"Chcem vrátiť tento tovar.", en:"I'd like to return this, please.", note:"Na vrátenie vždy potrebuješ receipt = účtenku" },
+          { sk:"Máte nejaký výpredaj?", en:"Do you have any sales on?", note:"Sales = výpredaj. Discount = zľava na konkrétny tovar." }
         ]},
         { type:"dialogue", title:"Reálny dialóg", scene:"V obchode s oblečením.", lines:[
           { role:"Predavač", text:"Hi! Can I help you with anything?", isMe:false },
@@ -361,37 +438,143 @@ const LESSONS_DATA = {
         ]},
         { type:"quiz", title:"Rýchly test", questions:[
           { q:"Chceš vyskúšať tričko:", opts:["Can I try this on?","I want try shirt.","Test this clothing?"], cor:0 },
-          { q:"Pýtaš sa na veľkosť L:", opts:["Do you have this in size large?","This in large size have?","Large size please give me."], cor:0 },
+          { q:"Pýtaš sa na veľkosť L:", opts:["Do you have this in size large?","This in large have?","Large size give me."], cor:0 },
           { q:"Chceš vrátiť tovar:", opts:["I'd like to return this, please.","Return want I this.","This thing back please."], cor:0 }
         ]},
         { type:"done" }
       ]
     },
     {
-      id:"hotel", icon:"🏨", name:"V hoteli", sub:"Check-in, požiadavky, problémy",
-      reminder:"19:00", color:"#a78bfa",
+      id:"hotel", icon:"🏨", name:"V hoteli", sub:"Check-in, požiadavky, problémy", reminder:"12:30",
       steps:[
-        { type:"intro", title:"V hoteli 🏨", desc:"Check-in, požiadavky na izbu, problémy. Frázy pre každý hotel — od hostelu po 5-hviezdičkový resort." },
+        { type:"intro", title:"V hoteli 🏨", desc:"Check-in, požiadavky na izbu, problémy. Zvládneš každý hotel — od hostelu po 5-hviezdičkový resort." },
         { type:"phrases", title:"Kľúčové frázy", phrases:[
           { sk:"Mám rezerváciu na meno Novák.", en:"I have a reservation under the name Novák.", note:"'Under the name' = na meno — štandardná fráza na recepcii" },
-          { sk:"O koľkej je check-out?", en:"What time is check-out?", note:"'Check-out' — rovnaké slovo aj po slovensky v hoteloch" },
+          { sk:"O koľkej je check-out?", en:"What time is check-out?", note:"Check-out = rovnaké slovo aj po slovensky v hoteloch" },
           { sk:"Môžem mať neskorší check-out?", en:"Is a late check-out possible?", note:"Vždy sa oplatí spýtať — často to povolia zadarmo" },
           { sk:"V kúpeľni nefunguje sprcha.", en:"The shower in my room isn't working.", note:"'Isn't working' = nefunguje. Možno aj: 'is broken'" },
           { sk:"Môžete mi zavolať taxi?", en:"Could you call a taxi for me?", note:"'Could you' = mohli by ste — zdvorilejšie ako 'Can you'" }
         ]},
         { type:"dialogue", title:"Reálny dialóg", scene:"Check-in v hoteli.", lines:[
-          { role:"Recepcia", text:"Good evening! Welcome. Do you have a reservation?", isMe:false },
-          { role:"Ty", text:"Yes, I have a reservation under the name Novák.", isMe:true },
-          { role:"Recepcia", text:"Let me find that... perfect, a double room for two nights. Can I see your ID?", isMe:false },
-          { role:"Ty", text:"Of course, here you go.", isMe:true },
-          { role:"Recepcia", text:"Thank you. Breakfast is from 7 to 10. Check-out is at noon.", isMe:false },
+          { role:"Recepcia", text:"Good evening! Do you have a reservation?", isMe:false },
+          { role:"Ty", text:"Yes, under the name Novák.", isMe:true },
+          { role:"Recepcia", text:"Perfect. Breakfast is from 7 to 10. Check-out is at noon.", isMe:false },
           { role:"Ty", text:"Is a late check-out possible? Around 1pm?", isMe:true },
-          { role:"Recepcia", text:"I can arrange that for you, no problem!", isMe:false }
+          { role:"Recepcia", text:"I can arrange that, no problem!", isMe:false },
+          { role:"Ty", text:"Thank you so much!", isMe:true }
         ]},
         { type:"quiz", title:"Rýchly test", questions:[
           { q:"Oznamuješ rezerváciu na recepcii:", opts:["I have a reservation under the name...","My booking is for name...","Reserve I have here."], cor:0 },
-          { q:"Sprcha nefunguje — čo povieš?", opts:["The shower in my room isn't working.","Shower broken is in room.","My shower not work please fix."], cor:0 },
-          { q:"Chceš neskorší check-out:", opts:["Is a late check-out possible?","Late checkout I want please.","Can I go out late?"], cor:0 }
+          { q:"Sprcha nefunguje — čo povieš?", opts:["The shower in my room isn't working.","Shower broken is.","My shower not work."], cor:0 },
+          { q:"Chceš neskorší check-out:", opts:["Is a late check-out possible?","Late checkout I want.","Can I go out late?"], cor:0 }
+        ]},
+        { type:"done" }
+      ]
+    },
+    {
+      id:"transport", icon:"🚌", name:"Doprava", sub:"Autobus, vlak, taxík, lístky", reminder:"19:00",
+      steps:[
+        { type:"intro", title:"Doprava 🚌", desc:"Autobus, vlak, taxík. Frázy na kúpu lístka, pýtanie sa na platformu a komunikáciu s vodičom." },
+        { type:"phrases", title:"Kľúčové frázy", phrases:[
+          { sk:"Jeden lístok do Oxfordu, prosím.", en:"One ticket to Oxford, please.", note:"Return ticket = spiatočný lístok. Single = jednosmerný." },
+          { sk:"Z ktorej perónky odchádza vlak?", en:"Which platform does the train leave from?", note:"Platform = perón (vlak). Bay / stand = zastávka (autobus)" },
+          { sk:"Je toto miesto voľné?", en:"Is this seat free?", note:"Free = voľné. Taken = obsadené. Reserved = rezervované." },
+          { sk:"Zastavíte na Piccadilly Circus?", en:"Do you stop at Piccadilly Circus?", note:"Pýtaš sa vodiča autobusu — vždy radšej sa spýtaj" },
+          { sk:"Kde si môžem kúpiť Oyster kartu?", en:"Where can I get an Oyster card?", note:"Oyster = londýnska cestovná karta — funguje na metro, bus, vlak" }
+        ]},
+        { type:"dialogue", title:"Reálny dialóg", scene:"Na vlakových pokladniach.", lines:[
+          { role:"Pokladník", text:"Hello! Where would you like to go?", isMe:false },
+          { role:"Ty", text:"One return ticket to Edinburgh, please.", isMe:true },
+          { role:"Pokladník", text:"When are you travelling?", isMe:false },
+          { role:"Ty", text:"Tomorrow morning. Which platform does the train leave from?", isMe:true },
+          { role:"Pokladník", text:"Platform 5. The train leaves at 9:15.", isMe:false },
+          { role:"Ty", text:"Thank you! Is this seat reservation included?", isMe:true }
+        ]},
+        { type:"quiz", title:"Rýchly test", questions:[
+          { q:"Chceš spiatočný lístok do Londýna:", opts:["One return ticket to London, please.","London ticket back two way.","Return to London ticket one."], cor:0 },
+          { q:"'Platform 3' znamená:", opts:["Perón číslo 3","Zastávka číslo 3","Brána číslo 3"], cor:0 },
+          { q:"Pýtaš sa či je miesto voľné:", opts:["Is this seat free?","This seat available?","Seat free is here?"], cor:0 }
+        ]},
+        { type:"done" }
+      ]
+    },
+    {
+      id:"food-order", icon:"🍕", name:"Jedlo a objednávanie", sub:"Fast food, rozvoz, alergény", reminder:"8:00",
+      steps:[
+        { type:"intro", title:"Jedlo a objednávanie 🍕", desc:"Fast food, objednávanie cez telefón, alergény. Frázy ktoré použiješ každý deň." },
+        { type:"phrases", title:"Kľúčové frázy", phrases:[
+          { sk:"Chcem si objednať pizzu s donosením.", en:"I'd like to order a pizza for delivery.", note:"Delivery = donáška. Takeaway = jedlo so sebou. Eat in = tu na mieste." },
+          { sk:"Som vegetarián / vegán.", en:"I'm vegetarian / vegan.", note:"Vždy hovor hneď na začiatku — pred objednávkou" },
+          { sk:"Nejem lepok / mliečne výrobky.", en:"I can't eat gluten / dairy.", note:"'I can't eat' = nejem — jasnejšie ako 'I don't eat'" },
+          { sk:"Môžem dostať to bez cibule?", en:"Can I have that without onions?", note:"Without = bez. Môžeš meniť ingrediencie — len sa pýtaj" },
+          { sk:"Aká je dnešná špeciálna ponuka?", en:"What's today's special?", note:"Today's special = denné menu / šéfkuchárovo odporúčanie" }
+        ]},
+        { type:"dialogue", title:"Reálny dialóg", scene:"Objednávaš jedlo cez telefón.", lines:[
+          { role:"Reštaurácia", text:"Hello, Mario's Pizza, how can I help?", isMe:false },
+          { role:"Ty", text:"Hi, I'd like to order a pizza for delivery.", isMe:true },
+          { role:"Reštaurácia", text:"Of course! What would you like?", isMe:false },
+          { role:"Ty", text:"A large Margherita, please. Can I have it without mushrooms?", isMe:true },
+          { role:"Reštaurácia", text:"No problem! That's £12.50. Any drinks?", isMe:false },
+          { role:"Ty", text:"No thanks. How long will delivery take?", isMe:true }
+        ]},
+        { type:"quiz", title:"Rýchly test", questions:[
+          { q:"Chceš donášku:", opts:["I'd like to order for delivery.","Delivery order I want.","Please bring food here."], cor:0 },
+          { q:"Chceš jedlo bez soli:", opts:["Can I have that without salt?","No salt please possible?","Salt remove from food please."], cor:0 },
+          { q:"Pýtaš sa na denné menu:", opts:["What's today's special?","What is special today menu?","Today menu what is it?"], cor:0 }
+        ]},
+        { type:"done" }
+      ]
+    },
+    {
+      id:"phone", icon:"📱", name:"Telefonovanie", sub:"Základné telefonické frázy", reminder:"12:30",
+      steps:[
+        { type:"intro", title:"Telefonovanie 📱", desc:"Telefonovanie v angličtine je pre mnohých najstresujúcejšie — naučíš sa základné frázy a prestaneš sa báť." },
+        { type:"phrases", title:"Kľúčové frázy", phrases:[
+          { sk:"Môžem hovoriť s pánom Smithom?", en:"Could I speak to Mr. Smith, please?", note:"'Could I speak to' = formálna žiadosť o prepojenie" },
+          { sk:"Hovorí Martin Novák.", en:"This is Martin Novák speaking.", note:"'This is' + meno — identifikácia pri telefóne, nie 'I am'" },
+          { sk:"Mohli by ste mu odkázať...?", en:"Could you give him a message?", note:"Leave a message = nechať odkaz. Take a message = prijať odkaz." },
+          { sk:"Nepočujem vás dobre.", en:"I can't hear you very well.", note:"Bežný problém pri hovore — zdvorilé upozornenie" },
+          { sk:"Zavolám neskôr.", en:"I'll call back later.", note:"Call back = zavolať späť. Get back to = ozvať sa niekomu." }
+        ]},
+        { type:"dialogue", title:"Reálny dialóg", scene:"Voláš do firmy.", lines:[
+          { role:"Recepcia", text:"Good morning, TechCorp, how can I help?", isMe:false },
+          { role:"Ty", text:"Good morning. Could I speak to Mr. Johnson, please?", isMe:true },
+          { role:"Recepcia", text:"I'm afraid he's in a meeting. Can I take a message?", isMe:false },
+          { role:"Ty", text:"Yes please. This is Martin Novák. Could you ask him to call me back?", isMe:true },
+          { role:"Recepcia", text:"Of course. What's your number?", isMe:false },
+          { role:"Ty", text:"It's +421 900 123 456. Thank you!", isMe:true }
+        ]},
+        { type:"quiz", title:"Rýchly test", questions:[
+          { q:"Chceš hovoriť s pani Brownovou:", opts:["Could I speak to Mrs. Brown, please?","I want talk Mrs. Brown.","Connect me Brown please."], cor:0 },
+          { q:"Identifikuješ sa pri telefóne:", opts:["This is Martin speaking.","I am Martin Novák.","Martin Novák here calling."], cor:0 },
+          { q:"Zavoláš neskôr:", opts:["I'll call back later.","Later I phone again.","Call I will do later."], cor:0 }
+        ]},
+        { type:"done" }
+      ]
+    },
+    {
+      id:"weather", icon:"🌤️", name:"Počasie a small talk", sub:"Typický britský rozhovor", reminder:"19:00",
+      steps:[
+        { type:"intro", title:"Počasie a small talk 🌤️", desc:"Počasie je hlavná téma small talku v UK. Zvládni tieto frázy a budeš znieť ako pravý Brit!" },
+        { type:"phrases", title:"Kľúčové frázy", phrases:[
+          { sk:"Dnes je krásne počasie.", en:"The weather is lovely today!", note:"Lovely = britské slovo pre beautiful / nice — typicky britské" },
+          { sk:"Myslím že bude pršať.", en:"I think it's going to rain.", note:"'It's going to' = bude (predpoveď). 'It might rain' = možno bude pršať." },
+          { sk:"Vonku je veľmi chladno.", en:"It's really cold outside.", note:"Cold = zima. Freezing = mrzne. Chilly = trochu chladno." },
+          { sk:"Aké bude počasie cez víkend?", en:"What's the weather going to be like this weekend?", note:"'What's it going to be like' = ako bude — bežná otázka" },
+          { sk:"Skvelý deň na prechádzku, nie?", en:"Lovely day for a walk, isn't it?", note:"'Isn't it?' = nie? — britský spôsob začatia rozhovoru" }
+        ]},
+        { type:"dialogue", title:"Reálny dialóg", scene:"Small talk so susedom pri výťahu.", lines:[
+          { role:"Sused", text:"Morning! Lovely weather today, isn't it?", isMe:false },
+          { role:"Ty", text:"It really is! Finally some sunshine.", isMe:true },
+          { role:"Sused", text:"I think it might rain this afternoon though.", isMe:false },
+          { role:"Ty", text:"Oh really? I was planning a walk. What's the forecast?", isMe:true },
+          { role:"Sused", text:"Rain from about 3pm. Morning should be fine!", isMe:false },
+          { role:"Ty", text:"Good to know, thanks! Have a great day!", isMe:true }
+        ]},
+        { type:"quiz", title:"Rýchly test", questions:[
+          { q:"Ako povieš že je krásne počasie:", opts:["The weather is lovely today!","Weather is beautiful nice.","Today good weather is."], cor:0 },
+          { q:"Myslíš že bude snežiť:", opts:["I think it's going to snow.","Snow will come I think.","Maybe snow today will."], cor:0 },
+          { q:"Vonku je veľmi horúco:", opts:["It's really hot outside.","Outside very hot is it.","Hot very outside today."], cor:0 }
         ]},
         { type:"done" }
       ]
@@ -399,16 +582,15 @@ const LESSONS_DATA = {
   ],
   A2: [
     {
-      id:"airport", icon:"✈️", name:"Na letisku", sub:"Check-in, colnica, brána",
-      reminder:"8:00", color:"#e8ff6b",
+      id:"airport", icon:"✈️", name:"Na letisku", sub:"Check-in, colnica, brána", reminder:"8:00",
       steps:[
         { type:"intro", title:"Na letisku ✈️", desc:"Od check-in po pristátie. Frázy pre každú situáciu na letisku — colnica, batožina, brána." },
         { type:"phrases", title:"Kľúčové frázy", phrases:[
-          { sk:"Kde je check-in pre let do Londýna?", en:"Where is the check-in for the flight to London?", note:"Vždy uveď destináciu — na veľkom letisku je 20+ check-in prepážok" },
-          { sk:"Mám iba príručnú batožinu.", en:"I only have carry-on luggage.", note:"'Carry-on' = príručná batožina. 'Checked baggage' = podaná batožina" },
-          { sk:"Má let meškanie?", en:"Is the flight delayed?", note:"'Delayed' = oneskoreý. Môžeš aj pozrieť departure board = odletová tabuľa" },
-          { sk:"Kde je brána číslo 14?", en:"Where is gate 14?", note:"'Gate' = brána. 'Terminal' = terminál (iná budova)" },
-          { sk:"Idem na dovolenku.", en:"I'm here on holiday / vacation.", note:"'Holiday' = britská angličtina, 'vacation' = americká. Oboje funguje." }
+          { sk:"Kde je check-in pre let do Londýna?", en:"Where is the check-in for the flight to London?", note:"Vždy uveď destináciu — na veľkom letisku je 20+ prepážok" },
+          { sk:"Mám iba príručnú batožinu.", en:"I only have carry-on luggage.", note:"Carry-on = príručná. Checked baggage = podaná batožina." },
+          { sk:"Má let meškanie?", en:"Is the flight delayed?", note:"Delayed = oneskoreý. Pozri departure board = odletová tabuľa." },
+          { sk:"Kde je brána číslo 14?", en:"Where is gate 14?", note:"Gate = brána. Terminal = iná budova letiska." },
+          { sk:"Idem na dovolenku.", en:"I'm here on holiday / vacation.", note:"Holiday = britská angličtina. Vacation = americká. Oboje funguje." }
         ]},
         { type:"dialogue", title:"Reálny dialóg", scene:"Colnica na letisku v Londýne.", lines:[
           { role:"Colník", text:"Passport, please.", isMe:false },
@@ -416,74 +598,255 @@ const LESSONS_DATA = {
           { role:"Colník", text:"What's the purpose of your visit?", isMe:false },
           { role:"Ty", text:"I'm here on holiday.", isMe:true },
           { role:"Colník", text:"How long are you staying?", isMe:false },
-          { role:"Ty", text:"One week.", isMe:true },
-          { role:"Colník", text:"Where are you staying?", isMe:false },
-          { role:"Ty", text:"At a hotel in central London.", isMe:true },
-          { role:"Colník", text:"Enjoy your stay!", isMe:false }
+          { role:"Ty", text:"One week. At a hotel in central London.", isMe:true }
         ]},
         { type:"quiz", title:"Rýchly test", questions:[
-          { q:"Pýtaš sa kde je check-in:", opts:["Where is the check-in for the London flight?","Check-in London where it is?","I need check-in London please where?"], cor:0 },
-          { q:"Máš len príručnú batožinu:", opts:["I only have carry-on luggage.","I have small bag only with me.","Only hand bag me have."], cor:0 },
-          { q:"Colník sa pýta na účel návštevy:", opts:["I'm here on holiday.","My visit purpose is holiday.","Holiday for I come here."], cor:0 }
+          { q:"Pýtaš sa kde je check-in:", opts:["Where is the check-in for the London flight?","Check-in London where?","I need check-in where?"], cor:0 },
+          { q:"Máš len príručnú batožinu:", opts:["I only have carry-on luggage.","I have small bag only.","Only hand bag me have."], cor:0 },
+          { q:"Ideš na dovolenku:", opts:["I'm here on holiday.","My visit is holiday.","Holiday I come here."], cor:0 }
         ]},
         { type:"done" }
       ]
     },
     {
-      id:"work-intro", icon:"💼", name:"V práci — úvod", sub:"Predstavenie, small talk, kolegovia",
-      reminder:"12:30", color:"#60a5fa",
+      id:"work-intro", icon:"💼", name:"V práci — úvod", sub:"Predstavenie, small talk, kolegovia", reminder:"12:30",
       steps:[
         { type:"intro", title:"V práci 💼", desc:"Prvý deň v novej práci alebo stretnutie s klientom. Small talk, predstavenie, zdvorilé frázy." },
         { type:"phrases", title:"Kľúčové frázy", phrases:[
           { sk:"Volám sa Marek a som nový v tíme.", en:"My name is Marek and I'm new to the team.", note:"'New to the team' — štandardná fráza pri predstavení v práci" },
-          { sk:"Čím sa zaoberáte / v čom pracujete?", en:"What do you do for work?", note:"Základná otázka na small talk. Casualnejšie ako 'What is your profession?'" },
-          { sk:"Pracujem v oblasti financií.", en:"I work in finance.", note:"'In finance / marketing / IT / sales' — odvetvia bez člena 'the'" },
-          { sk:"Tešíme sa na spoluprácu.", en:"We're looking forward to working with you.", note:"'Looking forward to' + ing — klasická zdvorilostná fráza v biznise" },
-          { sk:"Mohli by sme si dohodnúť meeting?", en:"Could we schedule a meeting?", note:"'Schedule' = dohodnúť/naplánovať. Formálnejšie ako 'Can we meet?'" }
+          { sk:"Čím sa zaoberáte?", en:"What do you do for work?", note:"Základná otázka na small talk. Casual verzia 'What's your profession?'" },
+          { sk:"Pracujem v oblasti financií.", en:"I work in finance.", note:"In finance / marketing / IT / sales — odvetvia bez člena 'the'" },
+          { sk:"Tešíme sa na spoluprácu.", en:"We're looking forward to working with you.", note:"'Looking forward to' + -ing — klasická zdvorilostná fráza v biznise" },
+          { sk:"Mohli by sme si dohodnúť stretnutie?", en:"Could we schedule a meeting?", note:"Schedule = dohodnúť/naplánovať. Formálnejšie ako 'Can we meet?'" }
         ]},
         { type:"dialogue", title:"Reálny dialóg", scene:"Stretnutie s novým klientom v kancelárii.", lines:[
           { role:"Klient", text:"Hi, I'm Sarah from TechCorp. Nice to meet you.", isMe:false },
           { role:"Ty", text:"Nice to meet you too! I'm Marek. Thank you for coming.", isMe:true },
-          { role:"Klient", text:"Of course! So, what exactly does your company do?", isMe:false },
+          { role:"Klient", text:"Of course! What exactly does your company do?", isMe:false },
           { role:"Ty", text:"We work in corporate finance — mainly M&A advisory.", isMe:true },
-          { role:"Klient", text:"Interesting! How long have you been in the industry?", isMe:false },
-          { role:"Ty", text:"About seven years now. Could we schedule a call next week to discuss further?", isMe:true },
-          { role:"Klient", text:"Absolutely, looking forward to it!", isMe:false }
+          { role:"Klient", text:"Interesting! Could we schedule a call next week?", isMe:false },
+          { role:"Ty", text:"Absolutely, looking forward to it!", isMe:true }
         ]},
         { type:"quiz", title:"Rýchly test", questions:[
-          { q:"Predstavuješ sa ako nový v tíme:", opts:["I'm new to the team.","I am newly joined here.","New team member here I am."], cor:0 },
-          { q:"Chceš dohodnúť meeting:", opts:["Could we schedule a meeting?","Can meeting we have?","Meeting schedule please possible?"], cor:0 },
-          { q:"Pracuješ v IT sektore:", opts:["I work in IT.","I work in the IT sector field.","My job is in IT work area."], cor:0 }
+          { q:"Predstavuješ sa ako nový v tíme:", opts:["I'm new to the team.","I am newly joined here.","New team member I am."], cor:0 },
+          { q:"Chceš dohodnúť meeting:", opts:["Could we schedule a meeting?","Can meeting we have?","Meeting please possible?"], cor:0 },
+          { q:"Pracuješ v IT:", opts:["I work in IT.","I work in the IT sector field.","My job is IT work."], cor:0 }
         ]},
         { type:"done" }
       ]
     },
     {
-      id:"restaurant", icon:"🍽️", name:"V reštaurácii", sub:"Objednávanie, reklamácia, platba",
-      reminder:"19:00", color:"#f97316",
+      id:"restaurant", icon:"🍽️", name:"V reštaurácii", sub:"Objednávanie, reklamácia, platba", reminder:"19:00",
       steps:[
         { type:"intro", title:"V reštaurácii 🍽️", desc:"Od rezervácie stola po platbu. Zvládneš každú reštauráciu — od bistra po fine dining." },
         { type:"phrases", title:"Kľúčové frázy", phrases:[
-          { sk:"Rezervoval som stôl na 7 hodinu.", en:"I have a reservation for 7 o'clock.", note:"Ak nemáš rezerváciu: 'Do you have a table for two?' = Máte stôl pre dvoch?" },
+          { sk:"Rezervoval som stôl na 7 hodinu.", en:"I have a reservation for 7 o'clock.", note:"Ak nemáš rezerváciu: 'Do you have a table for two?'" },
           { sk:"Môžem vidieť jedálny lístok?", en:"Could I see the menu, please?", note:"'Could I' = zdvorilejšie ako 'Can I' — v reštaurácii vždy 'could'" },
-          { sk:"Čo odporúčate?", en:"What do you recommend?", note:"Čašník/čašníčka = waiter/waitress. Obrátiš sa: 'Excuse me!' alebo 'Excuse me, waiter!'" },
-          { sk:"Som alergický na orechy.", en:"I'm allergic to nuts.", note:"Dôležité! 'Allergic to' + potravina. 'I'm vegetarian/vegan' = som vegetarián/vegán" },
-          { sk:"Môžeme dostať účet, prosím?", en:"Could we have the bill, please?", note:"'Bill' = účet (UK). V USA hovoria 'check'. 'Split the bill' = rozdeliť účet" }
+          { sk:"Čo odporúčate?", en:"What do you recommend?", note:"Čašník = waiter/waitress. Obrátiš sa: 'Excuse me!'" },
+          { sk:"Som alergický na orechy.", en:"I'm allergic to nuts.", note:"Dôležité! 'Allergic to' + potravina." },
+          { sk:"Môžeme dostať účet, prosím?", en:"Could we have the bill, please?", note:"Bill = účet (UK). V USA hovoria 'check'. Split the bill = rozdeliť." }
         ]},
         { type:"dialogue", title:"Reálny dialóg", scene:"Večera v londýnskej reštaurácii.", lines:[
           { role:"Čašník", text:"Good evening! Do you have a reservation?", isMe:false },
-          { role:"Ty", text:"Yes, I have a reservation for 7 o'clock, name Novák.", isMe:true },
-          { role:"Čašník", text:"Perfect, right this way. Can I get you some drinks to start?", isMe:false },
+          { role:"Ty", text:"Yes, for 7 o'clock, name Novák.", isMe:true },
+          { role:"Čašník", text:"Perfect! Could I get you some drinks to start?", isMe:false },
           { role:"Ty", text:"Could I see the menu first, please?", isMe:true },
-          { role:"Čašník", text:"Of course! Here you are. Our special tonight is sea bass.", isMe:false },
-          { role:"Ty", text:"What do you recommend from the menu?", isMe:true },
-          { role:"Čašník", text:"The steak is excellent tonight.", isMe:false },
-          { role:"Ty", text:"I'll have that. Could we also have the bill at the end on one card?", isMe:true }
+          { role:"Čašník", text:"Of course! Our special tonight is sea bass.", isMe:false },
+          { role:"Ty", text:"What do you recommend from the menu?", isMe:true }
         ]},
         { type:"quiz", title:"Rýchly test", questions:[
-          { q:"Chceš vidieť jedálny lístok:", opts:["Could I see the menu, please?","I want to see menu.","Menu show me please."], cor:0 },
-          { q:"Si alergický na laktózu:", opts:["I'm allergic to lactose.","Lactose allergy I have.","No lactose for me please maybe."], cor:0 },
-          { q:"Žiadaš o účet:", opts:["Could we have the bill, please?","Bill please give us.","We want pay now bill."], cor:0 }
+          { q:"Chceš vidieť jedálny lístok:", opts:["Could I see the menu, please?","I want see menu.","Menu show me."], cor:0 },
+          { q:"Si alergický na laktózu:", opts:["I'm allergic to lactose.","Lactose allergy I have.","No lactose please."], cor:0 },
+          { q:"Žiadaš o účet:", opts:["Could we have the bill, please?","Bill give us please.","We want pay now."], cor:0 }
+        ]},
+        { type:"done" }
+      ]
+    },
+    {
+      id:"bank", icon:"🏦", name:"V banke", sub:"Účet, platby, výmena peňazí", reminder:"8:00",
+      steps:[
+        { type:"intro", title:"V banke 🏦", desc:"Otvoriť účet, vymeniť peniaze, riešiť problémy s kartou. Frázy pre každú bankovú situáciu." },
+        { type:"phrases", title:"Kľúčové frázy", phrases:[
+          { sk:"Chcem si otvoriť bežný účet.", en:"I'd like to open a current account.", note:"Current account = bežný účet (UK). Checking account = americká verzia." },
+          { sk:"Môžem vymeniť eurá za libry?", en:"Can I exchange euros for pounds?", note:"Exchange rate = výmenný kurz. Commission = poplatok za výmenu." },
+          { sk:"Moja karta nefunguje.", en:"My card isn't working.", note:"Môže byť zablokovaná alebo vypršala — expired card = vypršaná karta." },
+          { sk:"Chcem previesť peniaze.", en:"I'd like to make a transfer.", note:"Transfer = prevod. IBAN = medzinárodné číslo účtu." },
+          { sk:"Aký je poplatok za výber?", en:"What is the fee for a withdrawal?", note:"Fee = poplatok. Withdrawal = výber z bankomatu." }
+        ]},
+        { type:"dialogue", title:"Reálny dialóg", scene:"Na pobočke banky.", lines:[
+          { role:"Bankár", text:"Good morning! How can I help you today?", isMe:false },
+          { role:"Ty", text:"Good morning. I'd like to exchange some euros for pounds, please.", isMe:true },
+          { role:"Bankár", text:"Of course. How much would you like to exchange?", isMe:false },
+          { role:"Ty", text:"500 euros. What's today's exchange rate?", isMe:true },
+          { role:"Bankár", text:"It's 1.17 today. That would give you £426. Is there a fee?", isMe:false },
+          { role:"Ty", text:"Yes, there's a small commission of £5.", isMe:false }
+        ]},
+        { type:"quiz", title:"Rýchly test", questions:[
+          { q:"Chceš otvoriť účet:", opts:["I'd like to open a current account.","Open account I want.","Account opening please."], cor:0 },
+          { q:"Karta nefunguje:", opts:["My card isn't working.","Card broken not work.","My card problem have."], cor:0 },
+          { q:"Pýtaš sa na výmenný kurz:", opts:["What's today's exchange rate?","What rate exchange today?","Exchange rate what is?"], cor:0 }
+        ]},
+        { type:"done" }
+      ]
+    },
+    {
+      id:"health", icon:"💊", name:"U lekára / v lekárni", sub:"Príznaky, lieky, recept", reminder:"12:30",
+      steps:[
+        { type:"intro", title:"U lekára 💊", desc:"Opísať príznaky, kúpiť lieky v lekárni. Frázy pre každú zdravotnú situáciu v zahraničí." },
+        { type:"phrases", title:"Kľúčové frázy", phrases:[
+          { sk:"Bolí ma hlava / hrdlo / brucho.", en:"I have a headache / sore throat / stomachache.", note:"Headache = bolesť hlavy, sore throat = boľavé hrdlo" },
+          { sk:"Toto trvá už tri dni.", en:"This has been going on for three days.", note:"'Has been going on' = trvá — lekár vždy pýta 'how long?'" },
+          { sk:"Som alergický na penicilín.", en:"I'm allergic to penicillin.", note:"Dôležité vedieť po anglicky — môže zachrániť život v zahraničí" },
+          { sk:"Máte niečo na kašeľ?", en:"Do you have something for a cough?", note:"Cough = kašeľ. Cold = nádcha. Flu = chrípka." },
+          { sk:"Potrebujem recept alebo je to voľnopredajné?", en:"Do I need a prescription or is it over the counter?", note:"Over the counter = voľnopredajné. Prescription = na recept." }
+        ]},
+        { type:"dialogue", title:"Reálny dialóg", scene:"V lekárni.", lines:[
+          { role:"Lekárnik", text:"Hi there! Can I help you?", isMe:false },
+          { role:"Ty", text:"Yes, I have a bad cough and sore throat. It's been going on for two days.", isMe:true },
+          { role:"Lekárnik", text:"Any fever?", isMe:false },
+          { role:"Ty", text:"No fever. Do you have something for the cough?", isMe:true },
+          { role:"Lekárnik", text:"Yes, this cough syrup works well. It's over the counter.", isMe:false },
+          { role:"Ty", text:"Perfect. I'm allergic to penicillin — is that relevant here?", isMe:true }
+        ]},
+        { type:"quiz", title:"Rýchly test", questions:[
+          { q:"Bolí ťa žalúdok:", opts:["I have a stomachache.","My stomach pain me.","Stomach hurting I."], cor:0 },
+          { q:"Trvá to 5 dní:", opts:["This has been going on for five days.","Five days this happens.","Since five days problem."], cor:0 },
+          { q:"Pýtaš sa na voľnopredajný liek:", opts:["Is it over the counter?","Need I prescription?","Prescription free medicine?"], cor:0 }
+        ]},
+        { type:"done" }
+      ]
+    },
+    {
+      id:"email-basic", icon:"📧", name:"Pracovný email — základy", sub:"Otvorenie, telo, uzavretie emailu", reminder:"19:00",
+      steps:[
+        { type:"intro", title:"Pracovný email 📧", desc:"Základné frázy pre písanie profesionálnych emailov — otvorenie, žiadosť, uzavretie." },
+        { type:"phrases", title:"Kľúčové frázy", phrases:[
+          { sk:"Dobrý deň, píšem ohľadom...", en:"Dear Mr. Smith, I am writing regarding...", note:"Dear + priezvisko = formálne. Hi + meno = neformálne." },
+          { sk:"Ďakujem za váš email.", en:"Thank you for your email.", note:"Štandardné otvorenie odpovede na email — vždy funguje" },
+          { sk:"Bol by som vám vďačný za odpoveď do...", en:"I would be grateful for your reply by...", note:"'Would be grateful' = zdvorilá žiadosť o odpoveď s deadlinom" },
+          { sk:"Prikladám v prílohe dokument.", en:"Please find the document attached.", note:"Attached = v prílohe. Nikdy nezabudni priložiť súbor!" },
+          { sk:"S pozdravom / S úctou.", en:"Kind regards, / Best regards, / Yours sincerely,", note:"Kind/Best regards = bežné. Yours sincerely = formálne (keď vieš meno)." }
+        ]},
+        { type:"dialogue", title:"Reálny email", scene:"Píšeš email klientovi o stretnutí.", lines:[
+          { role:"Predmet", text:"Meeting Request — Q3 Review", isMe:false },
+          { role:"Ty", text:"Dear Ms. Johnson,", isMe:true },
+          { role:"Ty", text:"I am writing regarding our Q3 review meeting.", isMe:true },
+          { role:"Ty", text:"Would you be available on Thursday at 2pm?", isMe:true },
+          { role:"Ty", text:"Please find the agenda attached.", isMe:true },
+          { role:"Ty", text:"I would be grateful for your reply by Wednesday. Kind regards, Martin", isMe:true }
+        ]},
+        { type:"quiz", title:"Rýchly test", questions:[
+          { q:"Ako začneš formálny email:", opts:["Dear Mr. Smith,","Hello there Mr. Smith,","Hi Smith,"], cor:0 },
+          { q:"Ako povieš že prikladáš prílohu:", opts:["Please find the document attached.","I attach here document.","Document is attached here by me."], cor:0 },
+          { q:"Formálne uzavretie emailu:", opts:["Kind regards,","Bye for now,","See you, Martin"], cor:0 }
+        ]},
+        { type:"done" }
+      ]
+    },
+    {
+      id:"accommodation", icon:"🏠", name:"Hľadanie ubytovania", sub:"Prenájom, podmienky, sťažnosti", reminder:"8:00",
+      steps:[
+        { type:"intro", title:"Hľadanie ubytovania 🏠", desc:"Prenájom bytu alebo domu v zahraničí — otázky pre prenajímateľa, podmienky, reklamácie." },
+        { type:"phrases", title:"Kľúčové frázy", phrases:[
+          { sk:"Je v nájme zahrnuté aj energie?", en:"Are bills included in the rent?", note:"Bills = energie (elektrina, plyn, voda). All-inclusive = všetko v nájme." },
+          { sk:"Na ako dlho je minimálny prenájom?", en:"What's the minimum rental period?", note:"Rental period = doba prenájmu. Short-let = krátkodobý prenájom." },
+          { sk:"Je k dispozícii parkovanie?", en:"Is parking available?", note:"Parking space = parkovacie miesto. Garage = garáž." },
+          { sk:"Kedy by sme mohli nastúpiť?", en:"When would we be able to move in?", note:"Move in = nasťahovať sa. Move out = vysťahovať sa." },
+          { sk:"Kúrenie nefunguje správne.", en:"The heating isn't working properly.", note:"Properly = správne/poriadne. Landlord = prenajímateľ." }
+        ]},
+        { type:"dialogue", title:"Reálny dialóg", scene:"Telefonát s prenajímateľom.", lines:[
+          { role:"Prenajímateľ", text:"Hello, I'm calling about the flat on Baker Street.", isMe:false },
+          { role:"Ty", text:"Hi! I'm interested — are bills included in the rent?", isMe:true },
+          { role:"Prenajímateľ", text:"Water and internet are included. Gas and electricity are separate.", isMe:false },
+          { role:"Ty", text:"I see. Is parking available?", isMe:true },
+          { role:"Prenajímateľ", text:"There's street parking nearby, no private space.", isMe:false },
+          { role:"Ty", text:"And when would we be able to move in?", isMe:true }
+        ]},
+        { type:"quiz", title:"Rýchly test", questions:[
+          { q:"Pýtaš sa či sú energie zahrnuté:", opts:["Are bills included in the rent?","Bills included yes or no?","Rent has bills inside?"], cor:0 },
+          { q:"Kedy sa môžete nasťahovať:", opts:["When would we be able to move in?","When we can enter flat?","Move when possible for us?"], cor:0 },
+          { q:"Kúrenie nefunguje:", opts:["The heating isn't working properly.","Heating broken is here.","My heating not work right."], cor:0 }
+        ]},
+        { type:"done" }
+      ]
+    },
+    {
+      id:"social", icon:"🎉", name:"Spoločenské situácie", sub:"Pozvania, odmietnutia, oslavy", reminder:"12:30",
+      steps:[
+        { type:"intro", title:"Spoločenské situácie 🎉", desc:"Pozvať niekoho, zdvorilo odmietnuť, reagovať na pozvania. Frázy pre každú spoločenskú situáciu." },
+        { type:"phrases", title:"Kľúčové frázy", phrases:[
+          { sk:"Chcel by si ísť na kávu?", en:"Would you like to grab a coffee?", note:"'Grab a coffee' = ísť na kávu — bežné neformálne pozvanie" },
+          { sk:"Bohužiaľ nemôžem, mám iné plány.", en:"I'm afraid I can't, I have other plans.", note:"'I'm afraid' = bohužiaľ — zdvorilé odmietnutie bez urážky" },
+          { sk:"To znie super, prídem!", en:"That sounds great, I'll be there!", note:"'Sounds great' = znie dobre — nadšená odpoveď na pozvanie" },
+          { sk:"Gratulujeme k narodeninám!", en:"Happy Birthday! / Many happy returns!", note:"Many happy returns = britský spôsob gratulácie k narodeninám" },
+          { sk:"Na zdravie! / Na oslavu!", en:"Cheers! / Here's to you!", note:"Cheers = na zdravie aj ďakujem (UK). Here's to you = na teba!" }
+        ]},
+        { type:"dialogue", title:"Reálny dialóg", scene:"Kolega ťa pozýva na párty.", lines:[
+          { role:"Kolega", text:"Hey, we're having a small get-together Friday evening. Would you like to come?", isMe:false },
+          { role:"Ty", text:"That sounds great! What time?", isMe:true },
+          { role:"Kolega", text:"Around 7pm. It's Jamie's birthday so we're celebrating!", isMe:false },
+          { role:"Ty", text:"Oh, happy birthday to Jamie! I'll definitely be there.", isMe:true },
+          { role:"Kolega", text:"Brilliant! Should I bring anything?", isMe:false },
+          { role:"Ty", text:"Just bring yourself! See you Friday!", isMe:true }
+        ]},
+        { type:"quiz", title:"Rýchly test", questions:[
+          { q:"Pozývaš kolegu na obed:", opts:["Would you like to grab lunch?","You want eat lunch with me?","Lunch together yes or no?"], cor:0 },
+          { q:"Zdvorilo odmietaš:", opts:["I'm afraid I can't, I have other plans.","No I cannot come sorry.","I not free that day."], cor:0 },
+          { q:"Gratuluješ k narodeninám:", opts:["Happy Birthday!","Congratulations birthday!","Birthday happy for you!"], cor:0 }
+        ]},
+        { type:"done" }
+      ]
+    },
+    {
+      id:"complaints", icon:"😤", name:"Reklamácie a sťažnosti", sub:"Produkt, služba, zdvorilá asertivita", reminder:"19:00",
+      steps:[
+        { type:"intro", title:"Reklamácie 😤", desc:"Zdvorilo ale asertívne riešiť problémy — vrátenie tovaru, zlá služba, reklamácia. Bez kriku, s výsledkom." },
+        { type:"phrases", title:"Kľúčové frázy", phrases:[
+          { sk:"Chcel by som sa sťažovať na...", en:"I'd like to make a complaint about...", note:"Formálny štart sťažnosti — pokojný tón otvára dvere" },
+          { sk:"Toto nie je to čo som si objednal.", en:"This isn't what I ordered.", note:"Reštaurácia, e-shop, dodávka — univerzálna reklamačná fráza" },
+          { sk:"Trvám na vrátení peňazí.", en:"I'd like a full refund, please.", note:"Full refund = vrátenie celej sumy. Partial refund = čiastočné." },
+          { sk:"Môžem hovoriť s manažérom?", en:"Could I speak to the manager, please?", note:"Posledná možnosť — použi pokojne ak bežná cesta nefunguje" },
+          { sk:"Očakávam riešenie do 24 hodín.", en:"I expect this to be resolved within 24 hours.", note:"Expect + to be resolved = dávaš jasný deadline — funguje výborne" }
+        ]},
+        { type:"dialogue", title:"Reálny dialóg", scene:"Vrátenie poškodeného produktu v obchode.", lines:[
+          { role:"Ty", text:"Excuse me, I'd like to make a complaint about this laptop I bought here.", isMe:true },
+          { role:"Predavač", text:"Of course, what seems to be the problem?", isMe:false },
+          { role:"Ty", text:"The screen is cracked — and I only bought it yesterday.", isMe:true },
+          { role:"Predavač", text:"I'm sorry to hear that. Do you have your receipt?", isMe:false },
+          { role:"Ty", text:"Yes, here it is. I'd like a full refund, please.", isMe:true },
+          { role:"Predavač", text:"Let me get the manager to authorise that for you.", isMe:false }
+        ]},
+        { type:"quiz", title:"Rýchly test", questions:[
+          { q:"Začínaš formálnu sťažnosť:", opts:["I'd like to make a complaint about...","I want complain now about...","Complaint I have for you."], cor:0 },
+          { q:"Chceš vrátenie peňazí:", opts:["I'd like a full refund, please.","Money back give me.","Refund full want I."], cor:0 },
+          { q:"Chceš hovoriť s manažérom:", opts:["Could I speak to the manager, please?","Manager call for me please.","I want manager here now."], cor:0 }
+        ]},
+        { type:"done" }
+      ]
+    },
+    {
+      id:"interview-basic", icon:"🎯", name:"Pracovný pohovor — základy", sub:"Predstavenie, silné stránky, motivácia", reminder:"8:00",
+      steps:[
+        { type:"intro", title:"Pracovný pohovor 🎯", desc:"Prvé otázky na pohovore — predstavenie, silné stránky, prečo táto firma. Základ každého interview." },
+        { type:"phrases", title:"Kľúčové frázy", phrases:[
+          { sk:"Mám päť rokov skúseností v oblasti...", en:"I have five years of experience in...", note:"'Experience in' + oblasť — základná štruktúra predstavenia" },
+          { sk:"Moja najväčšia silná stránka je...", en:"My greatest strength is...", note:"Nasleduj vždy príkladom: 'My greatest strength is... For example...'" },
+          { sk:"Prečo ma zaujíma táto pozícia?", en:"Why am I interested in this role?", note:"Role = pozícia/funkcia. Job = práca (menej formálne v kontexte interview)" },
+          { sk:"Kde sa vidíte o päť rokov?", en:"Where do you see yourself in five years?", note:"Klasická otázka — priprav si odpoveď vopred!" },
+          { sk:"Máte nejaké otázky?", en:"Do you have any questions for us?", note:"Vždy maj 2-3 otázky pripravené — ukazuje záujem a prípravu" }
+        ]},
+        { type:"dialogue", title:"Reálny dialóg", scene:"Začiatok pracovného pohovoru.", lines:[
+          { role:"HR", text:"Thanks for coming in today. Could you tell us a bit about yourself?", isMe:false },
+          { role:"Ty", text:"Of course. I have five years of experience in corporate finance, mainly M&A.", isMe:true },
+          { role:"HR", text:"What would you say is your greatest strength?", isMe:false },
+          { role:"Ty", text:"My greatest strength is analytical thinking. For example, I led a €50M acquisition last year.", isMe:true },
+          { role:"HR", text:"Why are you interested in this role?", isMe:false },
+          { role:"Ty", text:"I'm looking to grow into a leadership position, and this role offers exactly that.", isMe:true }
+        ]},
+        { type:"quiz", title:"Rýchly test", questions:[
+          { q:"Máš 3 roky skúseností v marketingu:", opts:["I have three years of experience in marketing.","Three years marketing experience me.","Marketing I work three years."], cor:0 },
+          { q:"Tvoja silná stránka je komunikácia:", opts:["My greatest strength is communication.","I am good at communication strong.","Communication my strong point is."], cor:0 },
+          { q:"Klasická otázka na konci pohovoru:", opts:["Do you have any questions for us?","You want ask something me?","Any question have you?"], cor:0 }
         ]},
         { type:"done" }
       ]
@@ -491,15 +854,14 @@ const LESSONS_DATA = {
   ],
   B1: [
     {
-      id:"meeting", icon:"📊", name:"Pracovný meeting", sub:"Prezentovanie, otázky, diskusia",
-      reminder:"8:00", color:"#e8ff6b",
+      id:"meeting", icon:"📊", name:"Pracovný meeting", sub:"Prezentovanie, otázky, diskusia", reminder:"8:00",
       steps:[
-        { type:"intro", title:"Pracovný meeting 📊", desc:"Vedie meeting, prezentuje návrhy, kladie otázky. Profesionálna angličtina pre business prostredie." },
+        { type:"intro", title:"Pracovný meeting 📊", desc:"Viesť meeting, prezentovať návrhy, klásť otázky. Profesionálna angličtina pre business prostredie." },
         { type:"phrases", title:"Kľúčové frázy", phrases:[
           { sk:"Prejdeme teraz k hlavnému bodu.", en:"Let's move on to the main point.", note:"'Let's move on' = poďme ďalej — štruktúruje meeting" },
-          { sk:"Chcel by som vzniesť otázku.", en:"I'd like to raise a question.", note:"'Raise a question' = formálne vzniesť otázku — profesionálnejšie ako 'I have a question'" },
-          { sk:"Ak som správne pochopil...", en:"If I understand correctly...", note:"Výborná fráza ak si nie ste istí — ukazuje pozornosť a záujem" },
-          { sk:"Mohli by sme to rozviesť?", en:"Could you elaborate on that?", note:"'Elaborate' = rozviesť, vysvetliť podrobnejšie — B2 level fráza" },
+          { sk:"Chcel by som vzniesť otázku.", en:"I'd like to raise a question.", note:"'Raise a question' = formálne vzniesť otázku — profesionálnejšie" },
+          { sk:"Ak som správne pochopil...", en:"If I understand correctly...", note:"Výborná fráza ak si nie ste istí — ukazuje pozornosť" },
+          { sk:"Mohli by ste to rozviesť?", en:"Could you elaborate on that?", note:"'Elaborate' = rozviesť, vysvetliť podrobnejšie" },
           { sk:"Navrhol by som iný prístup.", en:"I'd like to suggest a different approach.", note:"Zdvorilý spôsob ako nesúhlasiť a navrhnúť alternatívu" }
         ]},
         { type:"dialogue", title:"Reálny dialóg", scene:"Týždenný tím meeting.", lines:[
@@ -508,73 +870,255 @@ const LESSONS_DATA = {
           { role:"Manager", text:"Go ahead.", isMe:false },
           { role:"Ty", text:"If I understand correctly, we're targeting Q4 for the launch. Is that still the plan?", isMe:true },
           { role:"Manager", text:"Correct. Could you elaborate on your concern?", isMe:false },
-          { role:"Ty", text:"I'd like to suggest a different approach — starting with a soft launch in October.", isMe:true },
-          { role:"Manager", text:"Interesting. Let's discuss that. Let's move on to the numbers first.", isMe:false }
+          { role:"Ty", text:"I'd like to suggest a different approach — a soft launch in October.", isMe:true }
         ]},
         { type:"quiz", title:"Rýchly test", questions:[
-          { q:"Chceš vzniesť otázku v meetingu:", opts:["I'd like to raise a question.","I have question please.","Question raising I want do."], cor:0 },
+          { q:"Chceš vzniesť otázku v meetingu:", opts:["I'd like to raise a question.","I have question please.","Question raising I want."], cor:0 },
           { q:"Žiadaš o podrobnejšie vysvetlenie:", opts:["Could you elaborate on that?","More explain this please?","You tell more about this."], cor:0 },
-          { q:"Navrhuješ iný postup:", opts:["I'd like to suggest a different approach.","I think other way better.","Different approach suggesting me."], cor:0 }
+          { q:"Navrhuješ iný postup:", opts:["I'd like to suggest a different approach.","I think other way better.","Different approach I suggest."], cor:0 }
         ]},
         { type:"done" }
       ]
     },
     {
-      id:"networking", icon:"🤝", name:"Networking", sub:"Nadviazanie kontaktu, follow-up",
-      reminder:"12:30", color:"#60a5fa",
+      id:"networking", icon:"🤝", name:"Networking", sub:"Nadviazanie kontaktu, follow-up", reminder:"12:30",
       steps:[
         { type:"intro", title:"Networking 🤝", desc:"Konferencie, biznis eventy, LinkedIn. Ako nadviazať kontakt a udržiavať vzťahy v angličtine." },
         { type:"phrases", title:"Kľúčové frázy", phrases:[
-          { sk:"Čím sa zaoberáš / v čom pracuješ?", en:"What do you do / what's your background?", note:"'Background' = skúsenosti a oblasť — sofistikovanejšie ako 'What's your job?'" },
-          { sk:"Pracujem v oblasti M&A v corporate finance.", en:"I work in M&A within corporate finance.", note:"'Within' = v rámci — presnejšie ako 'in corporate finance and also M&A'" },
-          { sk:"Určite si vymeňme kontakty.", en:"We should definitely exchange contacts.", note:"Alebo: 'Can I get your LinkedIn?' = môžem ťa pridať na LinkedIn?" },
-          { sk:"Ozvem sa ti budúci týždeň.", en:"I'll be in touch next week.", note:"'Be in touch' = ozvať sa, zostať v kontakte — klasická networking fráza" },
-          { sk:"Bol som veľmi rád, že sme sa stretli.", en:"It was great meeting you.", note:"Záverečná fráza pri rozlúčke — 'great meeting you' nie 'great to meet you' (minulý čas!)" }
+          { sk:"Čím sa zaoberáš / v čom pracuješ?", en:"What do you do / what's your background?", note:"'Background' = skúsenosti a oblasť — sofistikovanejšie" },
+          { sk:"Pracujem v oblasti M&A v corporate finance.", en:"I work in M&A within corporate finance.", note:"'Within' = v rámci — presnejšie ako 'in corporate finance and M&A'" },
+          { sk:"Určite si vymeňme kontakty.", en:"We should definitely exchange contacts.", note:"Alebo: 'Can I get your LinkedIn?' — priamo a moderne" },
+          { sk:"Ozvem sa ti budúci týždeň.", en:"I'll be in touch next week.", note:"'Be in touch' = ozvať sa — klasická networking fráza" },
+          { sk:"Bol som veľmi rád, že sme sa stretli.", en:"It was great meeting you.", note:"'Great meeting you' nie 'great to meet you' — minulý čas pri rozlúčke!" }
         ]},
         { type:"dialogue", title:"Reálny dialóg", scene:"Biznis konferencia, coffee break.", lines:[
           { role:"Kontakt", text:"Hi, I don't think we've met. I'm James, from BlackRock.", isMe:false },
           { role:"Ty", text:"Hi James, I'm Marek. I work in M&A within corporate finance.", isMe:true },
-          { role:"Kontakt", text:"Interesting! Which side — buy side or sell side?", isMe:false },
+          { role:"Kontakt", text:"Interesting! Buy side or sell side?", isMe:false },
           { role:"Ty", text:"Mostly buy side. What's your background?", isMe:true },
-          { role:"Kontakt", text:"Private equity, been at BlackRock for about five years.", isMe:false },
-          { role:"Ty", text:"We should definitely exchange contacts — could be useful down the line.", isMe:true },
-          { role:"Kontakt", text:"Absolutely. Here's my card.", isMe:false },
-          { role:"Ty", text:"Thank you. It was great meeting you, James!", isMe:true }
+          { role:"Kontakt", text:"Private equity, been at BlackRock for five years.", isMe:false },
+          { role:"Ty", text:"We should exchange contacts. It was great meeting you, James!", isMe:true }
         ]},
         { type:"quiz", title:"Rýchly test", questions:[
-          { q:"Pýtaš sa na profesionálne pozadie:", opts:["What's your background?","What is your job work?","Your profession area what?"], cor:0 },
-          { q:"Chceš si vymeniť kontakty:", opts:["We should definitely exchange contacts.","Contacts exchange us should.","Give me your number please contact."], cor:0 },
-          { q:"Lúčiš sa po networkingu:", opts:["It was great meeting you!","Great you meet was it!","Was nice to meet meeting!"], cor:0 }
+          { q:"Pýtaš sa na profesionálne pozadie:", opts:["What's your background?","What is your job work?","Your profession what?"], cor:0 },
+          { q:"Chceš si vymeniť kontakty:", opts:["We should definitely exchange contacts.","Contacts exchange us should.","Give me your number contact."], cor:0 },
+          { q:"Lúčiš sa po networkingu:", opts:["It was great meeting you!","Great you meet was!","Was nice meeting meeting!"], cor:0 }
         ]},
         { type:"done" }
       ]
     },
     {
-      id:"doctor", icon:"🏥", name:"U lekára", sub:"Príznaky, otázky, inštrukcie",
-      reminder:"19:00", color:"#f87171",
+      id:"doctor", icon:"🏥", name:"U lekára", sub:"Príznaky, otázky, inštrukcie", reminder:"19:00",
       steps:[
-        { type:"intro", title:"U lekára 🏥", desc:"Opísať príznaky, pochopiť inštrukcie, spýtať sa na liečbu. Frázy pre každú zdravotnú situáciu v zahraničí." },
+        { type:"intro", title:"U lekára 🏥", desc:"Opísať príznaky, pochopiť inštrukcie, spýtať sa na liečbu. Frázy pre každú zdravotnú situáciu." },
         { type:"phrases", title:"Kľúčové frázy", phrases:[
-          { sk:"Bolí ma hlava / hrdlo / brucho.", en:"I have a headache / sore throat / stomachache.", note:"'Headache' = bolesť hlavy, 'sore throat' = boľavé hrdlo, 'stomachache' = brucho" },
-          { sk:"Toto trvá už tri dni.", en:"This has been going on for three days.", note:"'Has been going on' = trvá (present perfect) — lekár vždy pýta 'how long?'" },
-          { sk:"Som alergický na penicilín.", en:"I'm allergic to penicillin.", note:"Dôležité vedieť po anglicky — môže zachrániť život v zahraničí" },
-          { sk:"Aké sú vedľajšie účinky?", en:"What are the side effects?", note:"'Side effects' = vedľajšie účinky. 'Dosage' = dávkovanie" },
-          { sk:"Potrebujem potvrdenie pre poisťovňu.", en:"I need a document for my insurance.", note:"'Insurance' = poisťovňa/poistenie. 'Medical certificate' = lekárske potvrdenie" }
+          { sk:"Bolí ma hlava / hrdlo / brucho.", en:"I have a headache / sore throat / stomachache.", note:"Headache = bolesť hlavy, sore throat = boľavé hrdlo" },
+          { sk:"Toto trvá už tri dni.", en:"This has been going on for three days.", note:"'Has been going on' = trvá — lekár vždy pýta 'how long?'" },
+          { sk:"Som alergický na penicilín.", en:"I'm allergic to penicillin.", note:"Dôležité vedieť po anglicky — môže zachrániť život" },
+          { sk:"Aké sú vedľajšie účinky?", en:"What are the side effects?", note:"Side effects = vedľajšie účinky. Dosage = dávkovanie." },
+          { sk:"Potrebujem potvrdenie pre poisťovňu.", en:"I need a document for my insurance.", note:"Insurance = poisťovňa/poistenie. Medical certificate = lekárske potvrdenie." }
         ]},
         { type:"dialogue", title:"Reálny dialóg", scene:"U všeobecného lekára v Londýne.", lines:[
           { role:"Lekár", text:"So, what seems to be the problem?", isMe:false },
-          { role:"Ty", text:"I have a sore throat and a headache. It's been going on for three days.", isMe:true },
+          { role:"Ty", text:"I have a sore throat and headache. It's been going on for three days.", isMe:true },
           { role:"Lekár", text:"Any fever?", isMe:false },
-          { role:"Ty", text:"Yes, a mild one. Around 37.8.", isMe:true },
-          { role:"Lekár", text:"Are you allergic to any medications?", isMe:false },
-          { role:"Ty", text:"Yes, I'm allergic to penicillin.", isMe:true },
+          { role:"Ty", text:"Mild one, around 37.8. I'm allergic to penicillin.", isMe:true },
           { role:"Lekár", text:"I'll prescribe something else. Take it twice a day.", isMe:false },
-          { role:"Ty", text:"What are the side effects? And could I get a document for my insurance?", isMe:true }
+          { role:"Ty", text:"What are the side effects? And I need a document for my insurance.", isMe:true }
         ]},
         { type:"quiz", title:"Rýchly test", questions:[
-          { q:"Bolí ťa hrdlo:", opts:["I have a sore throat.","My throat is pain me.","Throat hurting I have pain."], cor:0 },
-          { q:"Si alergický na aspirín:", opts:["I'm allergic to aspirin.","Aspirin allergy I am.","No aspirin please allergy."], cor:0 },
-          { q:"Pýtaš sa na vedľajšie účinky:", opts:["What are the side effects?","Effects side what are they?","Medicine has what effects side?"], cor:0 }
+          { q:"Bolí ťa hrdlo:", opts:["I have a sore throat.","My throat is pain me.","Throat hurting I have."], cor:0 },
+          { q:"Si alergický na aspirín:", opts:["I'm allergic to aspirin.","Aspirin allergy I am.","No aspirin allergy have."], cor:0 },
+          { q:"Pýtaš sa na vedľajšie účinky:", opts:["What are the side effects?","Effects side what are?","Medicine effects what?"], cor:0 }
+        ]},
+        { type:"done" }
+      ]
+    },
+    {
+      id:"negotiation", icon:"💰", name:"Vyjednávanie", sub:"Cena, podmienky, kompromis", reminder:"8:00",
+      steps:[
+        { type:"intro", title:"Vyjednávanie 💰", desc:"Rokovanie o cene, podmienkach, kompromisoch. Kľúčové frázy pre každý biznis deal." },
+        { type:"phrases", title:"Kľúčové frázy", phrases:[
+          { sk:"Naša počiatočná ponuka je...", en:"Our initial offer is...", note:"Initial = počiatočný — signalizuje že sú priestor na rokovanie" },
+          { sk:"To je trochu nad náš rozpočet.", en:"That's slightly above our budget.", note:"'Slightly above' = jemne nad — mäkší spôsob ako povedať 'too expensive'" },
+          { sk:"Čo keby sme to rozdelili na polovicu?", en:"What if we met somewhere in the middle?", note:"Meet in the middle = stretnúť sa na polceste — klasický kompromis" },
+          { sk:"Ak znížite cenu, záväzujeme sa k dlhodobej spolupráci.", en:"If you can lower the price, we'd commit to a long-term partnership.", note:"Podmieňovací spôsob + protiponuka — profesionálne vyjednávanie" },
+          { sk:"Potrebujem to konzultovať s tímom.", en:"I need to run this by my team first.", note:"'Run by' = konzultovať — bežná fráza na získanie času" }
+        ]},
+        { type:"dialogue", title:"Reálny dialóg", scene:"Rokovanie o cene softvérovej licencie.", lines:[
+          { role:"Dodávateľ", text:"Our annual licence fee is £50,000.", isMe:false },
+          { role:"Ty", text:"That's slightly above our budget. Our initial offer would be £38,000.", isMe:true },
+          { role:"Dodávateľ", text:"We could go to £45,000 with extended support included.", isMe:false },
+          { role:"Ty", text:"What if we met somewhere in the middle — say £41,000?", isMe:true },
+          { role:"Dodávateľ", text:"That's workable if you commit to a three-year contract.", isMe:false },
+          { role:"Ty", text:"I need to run this by my team first. I'll come back to you tomorrow.", isMe:true }
+        ]},
+        { type:"quiz", title:"Rýchly test", questions:[
+          { q:"Cena je nad váš rozpočet:", opts:["That's slightly above our budget.","Price too high for us.","Budget exceeded this price."], cor:0 },
+          { q:"Navrhuješ kompromis:", opts:["What if we met somewhere in the middle?","Half way maybe we go?","Middle price possible?"], cor:0 },
+          { q:"Potrebuješ čas na konzultáciu:", opts:["I need to run this by my team.","Team I must ask first.","Consulting team needed I."], cor:0 }
+        ]},
+        { type:"done" }
+      ]
+    },
+    {
+      id:"presentation", icon:"🎤", name:"Prezentácia", sub:"Štruktúra, prechody, Q&A", reminder:"12:30",
+      steps:[
+        { type:"intro", title:"Prezentácia 🎤", desc:"Štruktúrovať prezentáciu, plynulo prechádzať medzi časťami, zvládnuť otázky publika." },
+        { type:"phrases", title:"Kľúčové frázy", phrases:[
+          { sk:"Dovoľte mi začať s krátkym prehľadom.", en:"Let me begin with a brief overview.", note:"'Let me begin with' = začnem s — profesionálny štart prezentácie" },
+          { sk:"Ako môžete vidieť na tomto grafe...", en:"As you can see from this chart...", note:"'As you can see' = ako vidíte — smeruje pozornosť na vizuál" },
+          { sk:"Prejdeme teraz k ďalšiemu bodu.", en:"Moving on to our next point...", note:"'Moving on' = plynulý prechod bez prerušenia toku prezentácie" },
+          { sk:"Ak by som to mal zhrnúť...", en:"To summarise the key points...", note:"Záver prezentácie — zhrnutie pred Q&A" },
+          { sk:"Rád odpoviem na vaše otázky.", en:"I'd be happy to take any questions.", note:"'Take questions' = prijímať otázky — štandardný záver prezentácie" }
+        ]},
+        { type:"dialogue", title:"Reálny dialóg", scene:"Prezentácia pred investormi.", lines:[
+          { role:"Ty", text:"Good morning everyone. Let me begin with a brief overview of our Q3 results.", isMe:true },
+          { role:"Ty", text:"As you can see from this chart, revenue grew by 23% year-on-year.", isMe:true },
+          { role:"Ty", text:"Moving on to our next point — customer acquisition costs.", isMe:true },
+          { role:"Investor", text:"Sorry to interrupt — what drove the revenue growth?", isMe:false },
+          { role:"Ty", text:"Great question. It was primarily our expansion into the German market.", isMe:true },
+          { role:"Ty", text:"To summarise — strong growth, controlled costs. I'd be happy to take any questions.", isMe:true }
+        ]},
+        { type:"quiz", title:"Rýchly test", questions:[
+          { q:"Začínaš prezentáciu:", opts:["Let me begin with a brief overview.","I start now presentation.","Beginning with overview let."], cor:0 },
+          { q:"Prechádzaš na ďalší bod:", opts:["Moving on to our next point...","Next point we go now.","Now I speak about next."], cor:0 },
+          { q:"Otváraš Q&A sekciu:", opts:["I'd be happy to take any questions.","Questions now please ask.","Who has question now?"], cor:0 }
+        ]},
+        { type:"done" }
+      ]
+    },
+    {
+      id:"conflict", icon:"⚡", name:"Riešenie konfliktov", sub:"Nesúhlas, kompromis, de-eskalácia", reminder:"19:00",
+      steps:[
+        { type:"intro", title:"Riešenie konfliktov ⚡", desc:"Profesionálne nesúhlasiť, riešiť konflikty v práci, de-eskalovať napätie. Bez agresie, s výsledkom." },
+        { type:"phrases", title:"Kľúčové frázy", phrases:[
+          { sk:"Rešpektujem váš názor, ale nesúhlasím.", en:"I respect your view, but I disagree.", note:"Vždy uznaj pohľad druhého pred nesúhlasom — redukuje odpor" },
+          { sk:"Rozumiem vašej frustrácii.", en:"I understand your frustration.", note:"Emphatická reakcia — neriešiš hneď problém, ale uznávaš pocit" },
+          { sk:"Čo keby sme hľadali riešenie spoločne?", en:"What if we worked on a solution together?", note:"'Work on' = pracovať na — kolaboratívny prístup k riešeniu" },
+          { sk:"Myslím že nás oboch zaujíma to isté.", en:"I think we both want the same outcome.", note:"Nachádzaš spoločný záujem — základ každého úspešného kompromisu" },
+          { sk:"Nechajme to na chvíľu stranou a vráťme sa k tomu neskôr.", en:"Let's table this for now and revisit it later.", note:"'Table this' = odložiť na neskôr (UK zmysel) — keď emócie sú vysoké" }
+        ]},
+        { type:"dialogue", title:"Reálny dialóg", scene:"Nesúhlas medzi kolegami o stratégii.", lines:[
+          { role:"Kolega", text:"I think we should cut the marketing budget by 30%. It's not delivering.", isMe:false },
+          { role:"Ty", text:"I understand your frustration, but I respectfully disagree.", isMe:true },
+          { role:"Kolega", text:"The data clearly shows low ROI.", isMe:false },
+          { role:"Ty", text:"I think we both want the same outcome — better results. What if we worked on a solution together?", isMe:true },
+          { role:"Kolega", text:"What do you have in mind?", isMe:false },
+          { role:"Ty", text:"Let's table the budget cut for now and revisit it after the A/B test results.", isMe:true }
+        ]},
+        { type:"quiz", title:"Rýchly test", questions:[
+          { q:"Zdvorilo nesúhlasíš:", opts:["I respect your view, but I disagree.","You are wrong about this.","I don't agree with you sorry."], cor:0 },
+          { q:"Vyjadruješ pochopenie pre frustráciu:", opts:["I understand your frustration.","I know you are angry.","Frustration I see you have."], cor:0 },
+          { q:"Navrhuješ odložiť diskusiu:", opts:["Let's table this for now.","We stop talking now.","Later we discuss it maybe."], cor:0 }
+        ]},
+        { type:"done" }
+      ]
+    },
+    {
+      id:"feedback", icon:"💬", name:"Dávanie a prijímanie spätnej väzby", sub:"Konštruktívna kritika, pochvala, reakcia", reminder:"8:00",
+      steps:[
+        { type:"intro", title:"Spätná väzba 💬", desc:"Dať konštruktívnu spätnú väzbu, prijať kritiku, pochváliť kolegu. Kľúčová zručnosť v každom pracovnom prostredí." },
+        { type:"phrases", title:"Kľúčové frázy", phrases:[
+          { sk:"Chcel by som ti poskytnúť spätnú väzbu.", en:"I'd like to share some feedback with you.", note:"'Share feedback' = poskytnúť spätnú väzbu — neagresívne otvorenie" },
+          { sk:"Čo robíš naozaj dobre je...", en:"What you're doing really well is...", note:"Vždy začni pozitívom — tzv. 'sandwich method' v spätnej väzbe" },
+          { sk:"Jedna oblasť na zlepšenie by mohla byť...", en:"One area for improvement could be...", note:"'Area for improvement' = oblasť na zlepšenie — nie 'your weakness'" },
+          { sk:"Ďakujem za feedback, vezmem to do úvahy.", en:"Thank you for the feedback, I'll take that on board.", note:"'Take on board' = zobrať do úvahy — profesionálna reakcia na kritiku" },
+          { sk:"Robíš skvelú prácu, tak ďalej!", en:"You're doing a great job, keep it up!", note:"Jednoduchá ale silná pochvala — 'keep it up' = tak ďalej" }
+        ]},
+        { type:"dialogue", title:"Reálny dialóg", scene:"One-on-one stretnutie s manažérom.", lines:[
+          { role:"Manager", text:"I'd like to share some feedback from last week's presentation.", isMe:false },
+          { role:"Ty", text:"Of course, I'd appreciate that.", isMe:true },
+          { role:"Manager", text:"What you did really well was the data visualisation — very clear.", isMe:false },
+          { role:"Ty", text:"Thank you, I spent a lot of time on that.", isMe:true },
+          { role:"Manager", text:"One area for improvement — try to slow down when presenting key numbers.", isMe:false },
+          { role:"Ty", text:"That's great feedback, I'll definitely take that on board.", isMe:true }
+        ]},
+        { type:"quiz", title:"Rýchly test", questions:[
+          { q:"Otváraš spätnú väzbu:", opts:["I'd like to share some feedback with you.","I need tell you something bad.","Feedback sharing I want now."], cor:0 },
+          { q:"Prijímaš konštruktívnu kritiku:", opts:["Thank you, I'll take that on board.","OK I understand your criticism.","Thanks for telling me my faults."], cor:0 },
+          { q:"Pochváliš kolegu:", opts:["You're doing a great job, keep it up!","You work good continue please.","Good job you do well."], cor:0 }
+        ]},
+        { type:"done" }
+      ]
+    },
+    {
+      id:"remote-work", icon:"💻", name:"Remote práca a video hovory", sub:"Zoom, Teams, technické problémy", reminder:"12:30",
+      steps:[
+        { type:"intro", title:"Remote práca 💻", desc:"Video hovory, technické problémy, komunikácia na diaľku. Frázy pre každodenný remote work." },
+        { type:"phrases", title:"Kľúčové frázy", phrases:[
+          { sk:"Počujete ma dobre?", en:"Can you hear me okay?", note:"Prvá veta každého video hovoru — vždy sa uistí pred začiatkom" },
+          { sk:"Váš mikrofón je vypnutý.", en:"You're on mute.", note:"'On mute' = vypnutý mikrofón — najčastejšia fráza na video hovoroch!" },
+          { sk:"Zdieľam svoju obrazovku.", en:"I'm sharing my screen now.", note:"Share screen = zdieľať obrazovku — kľúčová fráza pre remote prezentácie" },
+          { sk:"Mám problémy s pripojením.", en:"I'm having connection issues.", note:"Connection issues = problémy s pripojením. Drop out = výpadok." },
+          { sk:"Pošlem ti zhrnutie emailom.", en:"I'll send you a summary by email.", note:"Summary = zhrnutie. Follow-up email = následný email po hovore." }
+        ]},
+        { type:"dialogue", title:"Reálny dialóg", scene:"Začiatok video hovoru so zahraničným tímom.", lines:[
+          { role:"Kolega", text:"Hi everyone, can you hear me okay?", isMe:false },
+          { role:"Ty", text:"Yes, loud and clear! Just give me a second — I'm sharing my screen.", isMe:true },
+          { role:"Kolega", text:"Martin, you're on mute!", isMe:false },
+          { role:"Ty", text:"Sorry! Can you hear me now?", isMe:true },
+          { role:"Kolega", text:"Perfect. Shall we get started?", isMe:false },
+          { role:"Ty", text:"Yes. I'll send everyone a summary by email after the call.", isMe:true }
+        ]},
+        { type:"quiz", title:"Rýchly test", questions:[
+          { q:"Pýtaš sa či ťa počujú:", opts:["Can you hear me okay?","You hear me good?","Hearing me can you?"], cor:0 },
+          { q:"Kolegovi je vypnutý mikrofón:", opts:["You're on mute.","Your micro is off.","Mute you are have."], cor:0 },
+          { q:"Zdieľaš obrazovku:", opts:["I'm sharing my screen now.","Screen I share now you see.","My screen sharing starting."], cor:0 }
+        ]},
+        { type:"done" }
+      ]
+    },
+    {
+      id:"travel-business", icon:"🌍", name:"Biznis cestovanie", sub:"Letenky, výdavky, reportovanie", reminder:"19:00",
+      steps:[
+        { type:"intro", title:"Biznis cestovanie 🌍", desc:"Rezervácia, výdavky, reportovanie. Frázy pre firemné cestovanie a komunikáciu s účtovníctvom." },
+        { type:"phrases", title:"Kľúčové frázy", phrases:[
+          { sk:"Chcem rezervovať let do Paríža.", en:"I'd like to book a flight to Paris.", note:"Book = rezervovať. Flight = let. Business class = biznis trieda." },
+          { sk:"Potrebujem faktúru pre firemné účely.", en:"I need an invoice for business purposes.", note:"Invoice = faktúra. Receipt = pokladničný doklad. Expense = výdavok." },
+          { sk:"Toto je firemný výdavok.", en:"This is a business expense.", note:"Business expense = firemný výdavok, ktorý si dáš do nákladov" },
+          { sk:"Kde si môžem nárokovať výdavky?", en:"Where do I claim my expenses?", note:"Claim expenses = nárokovať výdavky — kľúčová fráza pre refundáciu" },
+          { sk:"Let bol zrušený / presmerovaný.", en:"The flight was cancelled / redirected.", note:"Cancelled = zrušený. Redirected/diverted = presmerovaný na iné letisko." }
+        ]},
+        { type:"dialogue", title:"Reálny dialóg", scene:"Na recepcii v hoteli na firemnej ceste.", lines:[
+          { role:"Recepcia", text:"Good evening, checking in?", isMe:false },
+          { role:"Ty", text:"Yes, reservation under Novák. This is a business trip — I'll need an invoice.", isMe:true },
+          { role:"Recepcia", text:"Of course. Shall I put the invoice under your company name?", isMe:false },
+          { role:"Ty", text:"Yes please — TechCorp Slovakia. I'll also need VAT details included.", isMe:true },
+          { role:"Recepcia", text:"No problem. And will you be claiming breakfast as a business expense?", isMe:false },
+          { role:"Ty", text:"Yes, please include it on the invoice.", isMe:true }
+        ]},
+        { type:"quiz", title:"Rýchly test", questions:[
+          { q:"Potrebuješ faktúru:", opts:["I need an invoice for business purposes.","Give invoice me please.","Invoice I want business one."], cor:0 },
+          { q:"Uplatňuješ výdavky:", opts:["I'd like to claim my expenses.","Expenses I claim want.","My money back please expenses."], cor:0 },
+          { q:"Let bol zrušený:", opts:["The flight was cancelled.","Flight cancelled is it.","My flight cancel was."], cor:0 }
+        ]},
+        { type:"done" }
+      ]
+    },
+    {
+      id:"small-talk-advanced", icon:"🗣️", name:"Pokročilý small talk", sub:"Kultúra, šport, aktuálne témy", reminder:"8:00",
+      steps:[
+        { type:"intro", title:"Pokročilý small talk 🗣️", desc:"Konverzácia na vyššej úrovni — kultúra, šport, aktuálne témy. Budeš znieť ako rodený hovorca." },
+        { type:"phrases", title:"Kľúčové frázy", phrases:[
+          { sk:"Sledoval si včerajší zápas?", en:"Did you catch the game last night?", note:"'Catch the game' = sledovať zápas — neformálne, prirodzené" },
+          { sk:"Čo si myslíš o tom novom filme?", en:"What did you make of that new film?", note:"'What did you make of' = čo si myslíš o — vyspelá konverzačná fráza" },
+          { sk:"Hovorí sa o tom všade.", en:"It's all anyone's talking about.", note:"Výraz pre niečo čo je veľká téma — news, event, film, šport" },
+          { sk:"Musím sa k tomu vyjadriť neskôr.", en:"I'll have to reserve judgement on that.", note:"'Reserve judgement' = zdržať sa hodnotenia — diplomatická odpoveď" },
+          { sk:"Úprimne povedané, myslím že...", en:"To be honest, I think...", note:"'To be honest' = úprimne / po pravde — uvádza osobný názor" }
+        ]},
+        { type:"dialogue", title:"Reálny dialóg", scene:"Rozhovor s kolegom pri kávovom automate.", lines:[
+          { role:"Kolega", text:"Did you catch the match last night? Unbelievable result!", isMe:false },
+          { role:"Ty", text:"I did! It's all anyone's talking about in the office.", isMe:true },
+          { role:"Kolega", text:"What did you make of the manager's tactics?", isMe:false },
+          { role:"Ty", text:"To be honest, I think he got lucky in the second half.", isMe:true },
+          { role:"Kolega", text:"Fair point! Have you seen that new series on Netflix?", isMe:false },
+          { role:"Ty", text:"Not yet. I'll have to reserve judgement until I watch it!", isMe:true }
+        ]},
+        { type:"quiz", title:"Rýchly test", questions:[
+          { q:"Pýtaš sa či sledoval zápas:", opts:["Did you catch the game last night?","You see game yesterday?","Game watching did you?"], cor:0 },
+          { q:"Niečo je všade hlavná téma:", opts:["It's all anyone's talking about.","Everyone talk about this.","Topic everywhere this is."], cor:0 },
+          { q:"Vyjadrenie osobného názoru:", opts:["To be honest, I think...","My opinion honest is...","Honestly speaking me think..."], cor:0 }
         ]},
         { type:"done" }
       ]
